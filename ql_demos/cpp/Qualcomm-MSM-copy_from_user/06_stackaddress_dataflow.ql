@@ -10,9 +10,7 @@
 
 import cpp
 import semmle.code.cpp.rangeanalysis.SimpleRangeAnalysis
-import semmle.code.cpp.valuenumbering.GlobalValueNumbering
-import semmle.code.cpp.dataflow.TaintTracking
-import DataFlow
+import semmle.code.cpp.dataflow.DataFlow
 import DataFlow::PathGraph
 
 class Config extends DataFlow::Configuration {

@@ -10,8 +10,7 @@
 import cpp
 import semmle.code.cpp.rangeanalysis.SimpleRangeAnalysis
 import semmle.code.cpp.valuenumbering.GlobalValueNumbering
-import semmle.code.cpp.dataflow.TaintTracking
-import DataFlow
+import semmle.code.cpp.dataflow.DataFlow
 
 // We wrote this predicate in the previous query.
 predicate safe_malloc(FunctionCall allocCall, FunctionCall copy_from_user) {
@@ -20,7 +19,7 @@ predicate safe_malloc(FunctionCall allocCall, FunctionCall copy_from_user) {
     copy_from_user.getTarget().getName() = "copy_from_user" and
     source.asExpr() = allocCall and
     sink.asExpr() = copy_from_user.getArgument(0) and
-    localFlow(source, sink) and
+    DataFlow::localFlow(source, sink) and
     globalValueNumber(allocCall.getArgument(0)) =
       globalValueNumber(copy_from_user.getArgument(2)))
 }
