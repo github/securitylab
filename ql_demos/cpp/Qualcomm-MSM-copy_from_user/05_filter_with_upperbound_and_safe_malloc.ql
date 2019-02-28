@@ -15,27 +15,24 @@ import semmle.code.cpp.dataflow.DataFlow
 
 // We wrote this predicate in the previous query.
 predicate safe_malloc(FunctionCall allocCall, FunctionCall copy_from_user) {
-  exists (DataFlow::Node source, DataFlow::Node sink
-  | allocCall.getTarget().getName() = "kzalloc" and
+  exists(DataFlow::Node source, DataFlow::Node sink |
+    allocCall.getTarget().getName() = "kzalloc" and
     copy_from_user.getTarget().getName() = "copy_from_user" and
     source.asExpr() = allocCall and
     sink.asExpr() = copy_from_user.getArgument(0) and
     DataFlow::localFlow(source, sink) and
-    globalValueNumber(allocCall.getArgument(0)) =
-      globalValueNumber(copy_from_user.getArgument(2)))
+    globalValueNumber(allocCall.getArgument(0)) = globalValueNumber(copy_from_user.getArgument(2))
+  )
 }
 
 // Add a filter to remove results that match the `safe_malloc` pattern.
 from FunctionCall call, Expr destArg, Expr sizeArg
-where call.getTarget().getName() = "copy_from_user"
-and destArg = call.getArgument(0)
-and sizeArg = call.getArgument(2)
-and not (destArg.getType().(PointerType).getBaseType().getSize() >= upperBound(sizeArg))
-and not (destArg.getType().(ArrayType).getSize() >= upperBound(sizeArg))
-and not safe_malloc(_, call)
-select
-  call,
-  destArg.getType(),
-  lowerBound(sizeArg),
-  upperBound(sizeArg),
+where
+  call.getTarget().getName() = "copy_from_user" and
+  destArg = call.getArgument(0) and
+  sizeArg = call.getArgument(2) and
+  not destArg.getType().(PointerType).getBaseType().getSize() >= upperBound(sizeArg) and
+  not destArg.getType().(ArrayType).getSize() >= upperBound(sizeArg) and
+  not safe_malloc(_, call)
+select call, destArg.getType(), lowerBound(sizeArg), upperBound(sizeArg),
   call.getFile().getRelativePath()

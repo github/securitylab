@@ -18,12 +18,9 @@ import semmle.code.cpp.rangeanalysis.SimpleRangeAnalysis
 //    and the size argument of the kzalloc is the same as the
 //    size argument of copy_from_user. These calls are safe.
 from FunctionCall call, Expr destArg, Expr sizeArg
-where call.getTarget().getName() = "copy_from_user"
-  and destArg = call.getArgument(0)
-  and sizeArg = call.getArgument(2)
-select
-  call,
-  destArg.getType(),
-  lowerBound(sizeArg),
-  upperBound(sizeArg),
+where
+  call.getTarget().getName() = "copy_from_user" and
+  destArg = call.getArgument(0) and
+  sizeArg = call.getArgument(2)
+select call, destArg.getType(), lowerBound(sizeArg), upperBound(sizeArg),
   call.getFile().getRelativePath()

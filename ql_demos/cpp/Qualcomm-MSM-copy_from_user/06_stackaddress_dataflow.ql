@@ -16,19 +16,19 @@ class Config extends DataFlow::Configuration {
   Config() { this = "copy_from_user" }
 
   override predicate isSource(DataFlow::Node source) {
-  	exists (LocalVariable v
-  	| source.asExpr().(AddressOfExpr).getOperand() = v.getAnAccess())
+    exists(LocalVariable v | source.asExpr().(AddressOfExpr).getOperand() = v.getAnAccess())
   }
 
   override predicate isSink(DataFlow::Node sink) {
     // This is the logic that was previously in the select clause of the query.
-    exists (FunctionCall call, Expr destArg, Expr sizeArg
-    | call.getTarget().getName() = "copy_from_user" and
+    exists(FunctionCall call, Expr destArg, Expr sizeArg |
+      call.getTarget().getName() = "copy_from_user" and
       destArg = sink.asExpr() and
       destArg = call.getArgument(0) and
       sizeArg = call.getArgument(2) and
-      not (destArg.getType().(PointerType).getBaseType().getSize() >= upperBound(sizeArg)) and
-      not (destArg.getType().(ArrayType).getSize() >= upperBound(sizeArg)))
+      not destArg.getType().(PointerType).getBaseType().getSize() >= upperBound(sizeArg) and
+      not destArg.getType().(ArrayType).getSize() >= upperBound(sizeArg)
+    )
   }
 }
 

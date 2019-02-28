@@ -20,14 +20,14 @@ import semmle.code.cpp.dataflow.DataFlow
 // In the next query, we'll use `safe_malloc` to filter those
 // calls out, because they are safe.
 predicate safe_malloc(FunctionCall allocCall, FunctionCall copy_from_user) {
-  exists (DataFlow::Node source, DataFlow::Node sink
-  | allocCall.getTarget().getName() = "kzalloc" and
+  exists(DataFlow::Node source, DataFlow::Node sink |
+    allocCall.getTarget().getName() = "kzalloc" and
     copy_from_user.getTarget().getName() = "copy_from_user" and
     source.asExpr() = allocCall and
     sink.asExpr() = copy_from_user.getArgument(0) and
     DataFlow::localFlow(source, sink) and
-    globalValueNumber(allocCall.getArgument(0)) =
-      globalValueNumber(copy_from_user.getArgument(2)))
+    globalValueNumber(allocCall.getArgument(0)) = globalValueNumber(copy_from_user.getArgument(2))
+  )
 }
 
 from FunctionCall allocCall, FunctionCall copy_from_user

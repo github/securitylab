@@ -18,14 +18,11 @@ import semmle.code.cpp.rangeanalysis.SimpleRangeAnalysis
 // copy_from_user(s, usrptr, sizeof(s));
 // ```
 from FunctionCall call, Expr destArg, Expr sizeArg
-where call.getTarget().getName() = "copy_from_user"
-and destArg = call.getArgument(0)
-and sizeArg = call.getArgument(2)
-and not (destArg.getType().(PointerType).getBaseType().getSize() >= upperBound(sizeArg))
-and not (destArg.getType().(ArrayType).getSize() >= upperBound(sizeArg))
-select
-  call,
-  destArg.getType(),
-  lowerBound(sizeArg),
-  upperBound(sizeArg),
+where
+  call.getTarget().getName() = "copy_from_user" and
+  destArg = call.getArgument(0) and
+  sizeArg = call.getArgument(2) and
+  not destArg.getType().(PointerType).getBaseType().getSize() >= upperBound(sizeArg) and
+  not destArg.getType().(ArrayType).getSize() >= upperBound(sizeArg)
+select call, destArg.getType(), lowerBound(sizeArg), upperBound(sizeArg),
   call.getFile().getRelativePath()
