@@ -2,7 +2,6 @@
  * @name kzalloc only
  * @description If the copy_from_user is preceded by a kzalloc of the correct
  *              size, then it is safe. To demonstrate, find only those results.
- * @problem.severity warning
  */
 
 import cpp

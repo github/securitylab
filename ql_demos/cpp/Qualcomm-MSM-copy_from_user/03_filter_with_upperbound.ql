@@ -3,7 +3,6 @@
  * @description This query excludes results that are safe because the upper
  *              bound of the size argument is less than or equal to the size of
  *              the destination variable or array.
- * @problem.severity warning
  */
 
 import cpp

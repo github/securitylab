@@ -5,7 +5,6 @@
  *              the destination variable or array. It also excludes results
  *              that are safe because the right amount of memory was allocated
  *              with kzalloc.
- * @problem.severity warning
  */
 
 import cpp

@@ -2,7 +2,6 @@
  * @name Annotate with types and bounds
  * @description Find all calls to copy_from_user and annotates them with their
  *              type and inferred size bounds.
- * @problem.severity warning
  */
 
 import cpp
