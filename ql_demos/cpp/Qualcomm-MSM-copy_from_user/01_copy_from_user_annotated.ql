@@ -1,9 +1,7 @@
 /**
- * @name Filter with upper bound
- * @description This query excludes results that are
- *   safe because the upper bound of the size argument
- *   is less than or equal to the size of the destination
- *   buffer.
+ * @name Annotate with types and bounds
+ * @description Find all calls to copy_from_user and annotates them with their
+ *              type and inferred size bounds.
  * @problem.severity warning
  */
 
@@ -21,8 +19,8 @@ import semmle.code.cpp.rangeanalysis.SimpleRangeAnalysis
 //    size argument of copy_from_user. These calls are safe.
 from FunctionCall call, Expr destArg, Expr sizeArg
 where call.getTarget().getName() = "copy_from_user"
-and destArg = call.getArgument(0)
-and sizeArg = call.getArgument(2)
+  and destArg = call.getArgument(0)
+  and sizeArg = call.getArgument(2)
 select
   call,
   destArg.getType(),

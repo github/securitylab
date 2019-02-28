@@ -1,11 +1,10 @@
 /**
- * @name Stack address dataflow
- * @description This query excludes results that are
- *   safe because the upper bound of the size argument
- *   is less than or equal to the size of the destination
- *   buffer.
+ * @name Data flow from stack variable address
+ * @description This restricts results to those that are most likely to be
+ *              dangerous: copying directly into a stack variable.
  * @kind path-problem
  * @problem.severity warning
+ * @id demo/msm/06-stackaddress-dataflow
  */
 
 import cpp

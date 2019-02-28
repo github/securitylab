@@ -1,9 +1,10 @@
 /**
- * @name Filter with upper bound
- * @description This query excludes results that are
- *   safe because the upper bound of the size argument
- *   is less than or equal to the size of the destination
- *   buffer.
+ * @name Filter with upper bound and kzalloc
+ * @description This query excludes results that are safe because the upper
+ *              bound of the size argument is less than or equal to the size of
+ *              the destination variable or array. It also excludes results
+ *              that are safe because the right amount of memory was allocated
+ *              with kzalloc.
  * @problem.severity warning
  */
 

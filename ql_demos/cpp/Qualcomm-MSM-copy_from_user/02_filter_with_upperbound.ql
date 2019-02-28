@@ -1,9 +1,8 @@
 /**
  * @name Filter with upper bound
- * @description This query excludes results that are
- *   safe because the upper bound of the size argument
- *   is less than or equal to the size of the destination
- *   buffer.
+ * @description This query excludes results that are safe because the upper
+ *              bound of the size argument is less than or equal to the size of
+ *              the destination variable.
  * @problem.severity warning
  */
 
