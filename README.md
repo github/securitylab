@@ -4,7 +4,7 @@ This open source repository contains demos of Semmle's products: [QL](https://se
 
 ## How do I run the demos?
 
-Each demo consists of a snapshot database and a series of query files. Each query is annotated with useful information and to explain it's purpose. To run a demo, import the associated files into the the [QL for Eclipse](https://lgtm.com/help/lgtm/running-queries-ide) plugin, and run the queries. For detailed instructions on installing QL for Eclipse, importing snapshots, and running queries, see the [QL for Eclipse online help](https://help.semmle.com/ql-for-eclipse/Content/WebHelp/install-plugin-free.html). You can also run the queries in the [interactive query console](https://lgtm.com/help/lgtm/using-query-console).
+Each demo consists of a snapshot database and a series of query files. Each query is annotated with useful information and to explain it's purpose. To run a demo, import the associated files into the [QL for Eclipse](https://lgtm.com/help/lgtm/running-queries-ide) plugin, and run the queries. For detailed instructions on installing QL for Eclipse, importing snapshots, and running queries, see the [QL for Eclipse online help](https://help.semmle.com/ql-for-eclipse/Content/WebHelp/install-plugin-free.html). You can also run the queries in the [interactive query console](https://lgtm.com/help/lgtm/using-query-console).
 
 ## How do I learn more about QL?
 
