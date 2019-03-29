@@ -2,4 +2,4 @@ import csharp
 
 from MethodCall c
 where c.getTarget().hasName("ExtractToFile")
-select c.getArgument(1), "Argument to ExtractToFile."
+select c

@@ -11,17 +11,17 @@ The "Zip Slip" vulnerability was announced on June 5th 2018, by [Snyk](https://s
 You can see on [this page](https://snyk.io/research/zip-slip-vulnerability#dot-net) some sample code that shows the vulnerable code.
 
 Microsoft immediately wanted to search their codebase to see if any of their own code was vulnerable. Within a few days,
-they had written a basic query and run it on their own LGTM-e instances that turned up several results across
+they had written a basic query and run it on their own LGTM Enterprise instances that turned up several results across
 several codeases. Because Semmle has a close working relationship with Microsoft, we then helped Microsoft to refine
 that query further and submit it as a [pull request](https://github.com/Semmle/ql/pull/54) against our open source QL repository.
 
-It was deployed within 2 weeks where it was run over thousands of open source C# projects.
+It was deployed to [LGTM.com](https://lgtm.com) within 2 weeks where it was run over thousands of open source C# projects.
 
 Here are some [sample results](https://lgtm.com/rules/1506511188430/alerts/) for the ZipSlip query. 
 One of those projects was Microsoft PowerShell.
 
 As a result of this query, [a senior Microsoft engineer](https://github.com/TravisEz13)
-fixed this query in November 2018 in
+fixed this vulnerability in November 2018 in
 [this PR](https://lgtm.com/projects/g/PowerShell/PowerShell/rev/b39a41109d86d9ba75f966e2d7b52b81fa629150).
 
 So how did they do it?
