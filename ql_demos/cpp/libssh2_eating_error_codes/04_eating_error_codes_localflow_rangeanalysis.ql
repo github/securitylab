@@ -7,6 +7,7 @@ import semmle.code.cpp.dataflow.DataFlow
 import semmle.code.cpp.rangeanalysis.SimpleRangeAnalysis
 
 // int r = f();
+// if (r < 0) return -1;
 // unsigned int x = r;
 
 from Function f, FunctionCall call, ReturnStmt ret, DataFlow::Node source, DataFlow::Node sink
