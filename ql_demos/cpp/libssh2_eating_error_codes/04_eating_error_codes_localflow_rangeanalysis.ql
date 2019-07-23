@@ -18,4 +18,4 @@ and source.asExpr() = call
 and DataFlow::localFlow(source, sink)
 and sink.asExpr().getFullyConverted().getType().getUnderlyingType().(IntegralType).isUnsigned()
 and lowerBound(sink.asExpr()) < 0
-select sink
+select source, sink
