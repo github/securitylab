@@ -5,9 +5,15 @@
 import cpp
 import semmle.code.cpp.dataflow.DataFlow
 
-// int r = f();
-// unsigned int x = r;
-
+// The previous query only handled cases where the result of the function
+// call is immediately cast to unsigned. So it will fail to detect examples
+// like this, where the cast doesn't happen immediately:
+//
+//   int r = f();
+//   unsigned int x = r;
+//
+// In this query, we add local dataflow so that we can also handle such
+// cases.
 from Function f, FunctionCall call, ReturnStmt ret, DataFlow::Node source, DataFlow::Node sink
 where call.getTarget() = f
 and ret.getEnclosingFunction() = f
