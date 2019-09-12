@@ -8,8 +8,8 @@ import cpp
 // code might be accidentally ignored.
 from Function f, FunctionCall call, ReturnStmt ret
 where
-  call.getTarget() = f and
-  ret.getEnclosingFunction() = f and
   ret.getExpr().getValue().toInt() < 0 and
+  ret.getEnclosingFunction() = f and
+  call.getTarget() = f and
   call.getFullyConverted().getType().getUnderlyingType().(IntegralType).isUnsigned()
 select call, ret

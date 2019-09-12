@@ -8,7 +8,7 @@ import cpp
 // return a negative integer constant.
 from Function f, FunctionCall call, ReturnStmt ret
 where
-  call.getTarget() = f and
+  ret.getExpr().getValue().toInt() < 0 and
   ret.getEnclosingFunction() = f and
-  ret.getExpr().getValue().toInt() < 0
+  call.getTarget() = f
 select ret, call
