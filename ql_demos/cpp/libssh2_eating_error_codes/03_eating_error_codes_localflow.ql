@@ -14,11 +14,10 @@ import semmle.code.cpp.dataflow.DataFlow
 //
 // In this query, we add local dataflow so that we can also handle such
 // cases.
-from Function f, FunctionCall call, ReturnStmt ret, DataFlow::Node source, DataFlow::Node sink
+from FunctionCall call, ReturnStmt ret, DataFlow::Node source, DataFlow::Node sink
 where
   ret.getExpr().getValue().toInt() < 0 and
-  ret.getEnclosingFunction() = f and
-  call.getTarget() = f and
+  call.getTarget() = ret.getEnclosingFunction() and
   source.asExpr() = call and
   DataFlow::localFlow(source, sink) and
   sink.asExpr().getFullyConverted().getType().getUnderlyingType().(IntegralType).isUnsigned()
