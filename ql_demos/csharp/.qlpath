@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:qlpath xmlns:ns2="https://semmle.com/schemas/qlpath">
+    <librarypath>
+        <path kind="PLUGIN">com.semmle.code.csharp.library</path>
+    </librarypath>
+    <dbscheme kind="PLUGIN">com.semmle.code.csharp.dbscheme</dbscheme>
+    <defaultImports>
+        <defaultImport>csharp</defaultImport>
+    </defaultImports>
+</ns2:qlpath>
