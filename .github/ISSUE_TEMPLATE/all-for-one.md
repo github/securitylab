@@ -1,8 +1,8 @@
 ---
-name: The Bug Slayer bounty submission
-about: Submit a CodeQL query for The Bug Slayer bounty (https://securitylab.github.com/bounties)
+name: All for One, One For All bounty submission
+about: Submit a CodeQL query for the All For One, One For All bounty (https://securitylab.github.com/bounties)
 title: "[USERNAME]: [SUMMARY]"
-labels: The Bug Slayer
+labels: All For One
 assignees: ''
 
 ---
