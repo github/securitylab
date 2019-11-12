@@ -7,14 +7,6 @@ assignees: ''
 
 ---
 
-## Query
-
-*We only accept one query per pull request.*
-
-```codeql
-
-```
-
 ## CVE ID(s)
 
 *List the CVE ID(s) associated with this vulnerability. GitHub will automatically link CVE IDs to the [GitHub Advisory Database](https://github.com/advisories).*
