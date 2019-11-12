@@ -1,6 +1,6 @@
 ---
 name: The Bug Slayer bounty submission
-about: Submit a CodeQL query for [The Bug Slayer bounty](https://securitylab.github.com/bounties)
+about: Submit a CodeQL query for The Bug Slayer bounty (https://securitylab.github.com/bounties)
 title: "[DATE]: [FEATURE NAME]"
 labels: The Bug Slayer
 assignees: ''
