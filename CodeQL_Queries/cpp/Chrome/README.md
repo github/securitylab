@@ -12,11 +12,11 @@ The libraries in this repository are organized as follows:
 
 ### `commons.qll`:
 
-Mostly contain general enchancement to the standard QL library and some Chromium specific, but still general material. For example, because the operators `->` and `=` are often overloaded in Chrome, this somehow upsets the usual `getQualifier` and `Assignment` in QL, so two general methods, `getQualifier` and `GeneralAssignment` are implemented to take these into account. Another useful predicates are `constructionCall` and `polyConstructionCall`, which identify all the constructor calls, as well as constructions via `make_unique` and `MakeRefCounted` (the former works fine in code search, but not the later, but neither will work on vanilla QL (you just ended inside the standard library))
+Mostly contain general enchancements to the standard QL library and some Chromium specific, but still general material. For example, because the operators `->` and `=` are often overloaded in Chrome, this somehow upsets the usual `getQualifier` and `Assignment` in QL, so two general methods, `getQualifier` and `GeneralAssignment` are implemented to take these into account. Other useful predicates are `constructionCall` and `polyConstructionCall`, which identify all the constructor calls, as well as constructions via `make_unique` and `MakeRefCounted`. `make_unique` works fine in code search, but not `MakeRefCounted`. Neither will work on vanilla QL, where you just end inside the standard library.
 
 ### `collections.qll`:
 
-Generally deals with `std::map`, `std::vector` etc. I use some heuristics there because there are just too many different types of containers and it is likely to miss out some if I add them manually. The library provides methods that get the component types of a container and also function calls that set/reset components in a container. A set/reset method call (e.g. push_back/erase/clear etc.) are useful as they are needed to identify when raw pointers might get remove and when managed pointers may get reset (which will cause the underlying object to be deleted and may cause a UaF somewhere else) Many bugs are actually related to pointers/managed pointers stored in containers.
+Generally deals with `std::map`, `std::vector` etc. I use some heuristics there because there are just too many different types of containers and it is likely to miss some if I add them manually. The library provides methods that get the component types of a container and also function calls that set/reset components in a container. A set/reset method call (e.g. push_back/erase/clear etc.) are useful as they are needed to identify when raw pointers might get removed and when managed pointers may get reset (which will cause the underlying object to be deleted and may cause a UaF somewhere else). Many bugs are actually related to pointers/managed pointers stored in containers.
 
 ### `callbacks.qll`:
 
@@ -46,7 +46,7 @@ Only used by `callbacks.qll` to track the types stored in callbacks.
 
 ### `bindings.qll`
 
-Use for modelling mojom interface.
+Used for modelling the Mojo interface.
 
 ## `pointers`: 
 
@@ -56,8 +56,8 @@ QL libraries for managed and raw pointers.
 
 ### `lifetime_management.qll`:
 
-QL library that models various clean up logic in Chrome. I haven't got round to implement too much code there yet.
+QL library that models various clean up logic in Chrome. I haven't got round to implementing too much code there yet.
 
 `obj_lifetime.qll`:
 
-Mostly contain classes that are long living, e.g. BrowserContext, Singleton and the objects that they manage. Mostly use to exclude raw pointer results as these are not likely to be destroyed.
+Mostly contains classes that are long living, e.g. BrowserContext, Singleton and the objects that they manage. Mostly used to exclude raw pointer results as these are not likely to be destroyed.
