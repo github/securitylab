@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+contact_links:
+  - name: CodeQL Feedback
+    url: https://github.com/github/securitylab/discussions/new
+    about: Feedback related with CodeQL CLI, languages, libraries, documentation, etc.
+  - name: Questions about the CodeQL language
+    url: https://github.com/github/securitylab/discussions/new
+    about: Questions about any of the CodeQL query languages.
+  
