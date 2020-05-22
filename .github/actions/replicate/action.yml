@@ -1,0 +1,13 @@
+name: 'debug-action'
+description: 'Outputs debug information'
+author: 'xcorail'
+inputs:
+  internal_repo: 
+    description: 'The destination repo for the internal issue'
+    default: 'github/securitylab-bounties'
+  existing_issue:
+    description: 'Launching on existing issues: we check duplicates, and we do not comment the original issue'
+    default: false
+runs:
+  using: 'node12'
+  main: './replicate.js'
