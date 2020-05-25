@@ -13,20 +13,7 @@
  */
 
 import cpp
-
-class SslSetVerifyFunctionCall extends FunctionCall {
-  SslSetVerifyFunctionCall() { this.getTarget().hasName("SSL_set_verify") }
-}
-
-class SslCtxSetVerifyFunctionCall extends FunctionCall {
-  SslCtxSetVerifyFunctionCall() { this.getTarget().hasName("SSL_CTX_set_verify") }
-}
-
-class SslCtxSetCertVerifyCallbackFunctionCall extends FunctionCall {
-  SslCtxSetCertVerifyCallbackFunctionCall() {
-    this.getTarget().hasName("SSL_CTX_set_cert_verify_callback")
-  }
-}
+import OpenSSLVerify
 
 class SetVerifyCallbackFunctionCall extends FunctionCall {
   SetVerifyCallbackFunctionCall() { this.getTarget().hasName("set_verify_callback") }
