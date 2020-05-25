@@ -1,11 +1,13 @@
 /**
  * @name OpenSSLMissingCNCheck
- * @kind problem
+ * @kind path-problem
  * @problem.severity recommendation
  * @id cpp/openssl-missing-verify-callback
  * @tags security
  *       external/cwe/cwe-273
- *
+ */
+
+/*
  * The default `verify_callback` https://www.openssl.org/docs/man1.1.1/man3/SSL_CTX_set_verify.html
  * does not compare CN/hostnames so a TLS client can be MITMed.
  *
@@ -52,11 +54,15 @@ class SslLikeCheckHostnameFunctionCall extends FunctionCall {
 }
 
 class SslPointerVariable extends Variable {
-  SslPointerVariable() { this.hasDefinition() and this.getUnderlyingType().hasName("SSL *") }
+  SslPointerVariable() {
+    this.hasDefinition() and this.getUnderlyingType().(PointerType).getBaseType().hasName("SSL")
+  }
 }
 
 class SslCtxPointerVariable extends Variable {
-  SslCtxPointerVariable() { this.hasDefinition() and this.getUnderlyingType().hasName("SSL_CTX *") }
+  SslCtxPointerVariable() {
+    this.hasDefinition() and this.getUnderlyingType().(PointerType).getBaseType().hasName("SSL_CTX")
+  }
 }
 
 class SslLikePointerVariable extends Variable {
@@ -84,15 +90,6 @@ predicate sslPointerTaintStep(DataFlow::Node pred, DataFlow::Node succ) {
     succ.asExpr() = fc and
     // Simple to go back and forth.
     (fc.getTarget().hasName("SSL_new") or fc.getTarget().hasName("SSL_get_SSL_CTX"))
-  )
-  or
-  // Propagate the taint from argument to parameter use.
-  exists(FunctionCall fc, Expr arg, Parameter p, int i |
-    p = fc.getTarget().getAParameter() and
-    i = p.getIndex() and
-    arg = fc.getArgument(i) and
-    arg = pred.asExpr() and
-    succ.asExpr() = p.getAnAccess()
   )
 }
 
@@ -150,6 +147,6 @@ where
   // False positives include intentional skipped verification and any
   // additional custom checking via accessing the peer certificate post-handshake.
   fc.getArgument(2).getValue() = "0"
-select ctx,
+select ctx, ctx, fc,
   "may be a client context without hostname verification because SSL_set1_host " +
-    "and other indicators of leaf cert hostname checking are missing", fc
+    "and other indicators of leaf cert hostname checking are missing"

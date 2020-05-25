@@ -5,7 +5,9 @@
  * @id cpp/boost-asio-missing-boost-verify-callback
  * @tags security
  *       external/cwe/cwe-273
- *
+ */
+
+/*
  * The default `verify_callback` https://www.openssl.org/docs/man1.1.1/man3/SSL_CTX_set_verify.html
  * does not compare CN/hostnames so a TLS client can be MITMed.
  *
@@ -65,7 +67,7 @@ class SetVerifyCallbackFunctionCall extends FunctionCall {
 
 predicate callsSetVerifyCallback(StreamSocketVariable v) {
   exists(SetVerifyCallbackFunctionCall fc, Expr e |
-    e = fc.getAChild() and
+    e = fc.getQualifier() and
     v = e.(VariableAccess).getTarget()
   )
 }
@@ -74,8 +76,8 @@ from SetVerifyModeFunctionCall fc, StreamSocketVariable v
 where
   // There is most likely a better method than assuming the only namespace/simple-name
   // child access is the qualifier.
-  v = fc.getAChild().(VariableAccess).getTarget() and
+  v = fc.getQualifier().(VariableAccess).getTarget() and
   not callsSetVerifyCallback(v)
-select v,
-  "boost::asio::ssl context calls set_verify_mode without a callback, " +
-    " if this is a client context then hostname validation may be missing", fc
+select fc,
+  "boost::asio::ssl context calls set_verify_mode without a callback $@, if this is a client context then hostname validation may be missing",
+  v, "on the socket (" + v + ")"
