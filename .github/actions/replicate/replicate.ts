@@ -36,7 +36,7 @@ const COMMENT_SCORING = `## Scoring
 - [ ] Accept
 `
 
-const COMMENT_FIRST_SUBMISSION = `## :tada: Fist submission for this user :tada:`
+const COMMENT_FIRST_SUBMISSION = `## :tada: First submission for this user :tada:`
 
 export const generateInternalIssueContentFromPayload = async (payload: WebhookPayload): Promise<Issue | undefined> => {
     const issue = payload.issue
