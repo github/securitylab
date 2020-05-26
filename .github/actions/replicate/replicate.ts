@@ -11,7 +11,7 @@ const COMMENT_TASK_LIST = `## Task List
   - [ ] Security Lab
 - [ ] CodeQL: Generate result set and post the URL in the comment
 - [ ] Security Lab assessment: 
-  - [ ] Assess the Vulnerability Impact, the Vulnerability Scope, and the False Positive ratio
+  - [ ] Assess the Vulnerability Impact, the Vulnerability Scope, and the False Positive ratio based on the provided CodeQL result set
   - [ ] Provide feedback to the author in the PR
 - [ ] CodeQL assessment:
   - [ ] Assess the Code Maturity and the Documentation
@@ -203,4 +203,3 @@ const run = async (): Promise<void> => {
 }
 
 run()
-
