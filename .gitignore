@@ -1,3 +1,28 @@
 .DS_Store
 *~
 /.metadata/
+.vscode
+.cache
+
+# Ignore any generated TypeScript -> JavaScript files
+.github/actions/replicate-issue/*.js
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+
+# Typescript v1 declaration files
+typings/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Typescript debugging
+**/*.js.map
