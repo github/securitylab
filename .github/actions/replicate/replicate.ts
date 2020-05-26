@@ -64,7 +64,7 @@ export const generateInternalIssueContentFromPayload = async (payload: WebhookPa
         return undefined
     }
 
-    result.title = `[BOUNTY - ${bountyType}] ${issue.title}`,
+    result.title = `[${bountyType}] ${issue.title}`,
     // In order to differentiate immediately the issues from others in the repo
     // And with the current situation, the robot with Read access cannot add labels to the issue
     result.body = `Original external [issue](${issue.html_url})

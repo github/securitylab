@@ -30,7 +30,7 @@ const COMMENT_TASK_LIST = `## Task List
   - [ ] Security Lab
 - [ ] CodeQL: Generate result set and post the URL in the comment
 - [ ] Security Lab assessment: 
-  - [ ] Assess the Vulnerability Impact, the Vulnerability Scope, and the False Positive ratio
+  - [ ] Assess the Vulnerability Impact, the Vulnerability Scope, and the False Positive ratio based on the provided CodeQL result set
   - [ ] Provide feedback to the author in the PR
 - [ ] CodeQL assessment:
   - [ ] Assess the Code Maturity and the Documentation
@@ -53,7 +53,7 @@ const COMMENT_SCORING = `## Scoring
 - [ ] Reject with encouragement swag (Decision: Dev Advocacy)
 - [ ] Accept
 `;
-const COMMENT_FIRST_SUBMISSION = `## :tada: Fist submission for this user :tada:`;
+const COMMENT_FIRST_SUBMISSION = `## :tada: First submission for this user :tada:`;
 exports.generateInternalIssueContentFromPayload = async (payload) => {
     const issue = payload.issue;
     let result = { title: "none", body: "none", labels: [] };
@@ -76,7 +76,7 @@ exports.generateInternalIssueContentFromPayload = async (payload) => {
         core.debug("Not a bounty");
         return undefined;
     }
-    result.title = `[BOUNTY - ${bountyType}] ${issue.title}`,
+    result.title = `[${bountyType}] ${issue.title}`,
         // In order to differentiate immediately the issues from others in the repo
         // And with the current situation, the robot with Read access cannot add labels to the issue
         result.body = `Original external [issue](${issue.html_url})
