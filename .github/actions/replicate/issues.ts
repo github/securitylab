@@ -25,7 +25,7 @@ export const getIssueList = async (owner: string, repo: string, token: string | 
 
         issues.data.forEach(issue => {
             const bountyLabel = checkBountyLabels? issue.labels.some(label => {
-                return replicate.BOUNTY_LABELS.includes(label.name)
+                return replicate.BOUNTY_LABELS.includes(label.name as replicate.BountyType)
             }) : undefined
             if(!checkBountyLabels || bountyLabel){
                 let item: Issue_info = {

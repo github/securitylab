@@ -24,7 +24,7 @@ const core = __importStar(require("@actions/core"));
 const github = __importStar(require("@actions/github"));
 const issues_1 = require("./issues");
 exports.BOUNTY_LABELS = ['All For One', 'The Bug Slayer'];
-const COMMENT_TASK_LIST = `## Task List
+const COMMENT_TASK_LIST_AFO = `## Task List
 - [ ] Initial assessment - Please record your decision in the comment below
   - [ ] CodeQL
   - [ ] Security Lab
@@ -39,6 +39,18 @@ const COMMENT_TASK_LIST = `## Task List
 - [ ] Score - Both teams fill the score table according to the version of the PR merged into the repository
 - [ ] Bounty Payment
 `;
+const COMMENT_TASK_LIST_BS = `## Task List
+- [ ] Initial assessment from Security Lab
+- [ ] Security Lab assessment:
+  - [ ] Confirm the CVE 
+  - [ ] Assess the Vulnerability Impact, the Vulnerability Scope
+  - [ ] Get the CodeQL scores (False Positive ratio, Code Maturity and the Documentation) from the previous query rating
+  - [ ] PR is merged? Finalize the score
+- [ ] Bounty Payment`;
+const COMMENT_TASK_LIST = {
+    'All For One': COMMENT_TASK_LIST_AFO,
+    'The Bug Slayer': COMMENT_TASK_LIST_BS
+};
 const COMMENT_SCORING = `## Scoring
 | Criterion | Score|
 |--- | --- |
@@ -56,7 +68,7 @@ const COMMENT_SCORING = `## Scoring
 const COMMENT_FIRST_SUBMISSION = `## :tada: First submission for this user :tada:`;
 exports.generateInternalIssueContentFromPayload = async (payload) => {
     const issue = payload.issue;
-    let result = { title: "none", body: "none", labels: [] };
+    let result = { title: 'none', body: 'none', labels: [], bountyType: 'All For One' };
     let bountyIssue = false;
     let bountyType = '';
     if (!issue || !issue.user || !issue.html_url) {
@@ -111,7 +123,7 @@ exports.createInternalIssue = async (payload, issue) => {
             owner,
             repo,
             issue_number: internal_ref,
-            body: COMMENT_TASK_LIST,
+            body: COMMENT_TASK_LIST[issue.bountyType],
         });
         core.debug(`comment created ${issueCommentResponse1.data.url}`);
         const issueCommentResponse2 = await octokit.issues.createComment({

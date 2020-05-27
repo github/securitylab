@@ -86,6 +86,7 @@ This is the issue body second line
 const TEST_GENERATED_ISSUE = {
     title: '[All For One] Issue Title',
     labels: ['All For One', 'not-a-bounty-label'],
+    bountyType: 'All For One',
     body: `Original external [issue](https://github.com/test_owner/test_repo/issues/1)
 
 Sumitted by [ghsecuritylab](https://github.com/ghsecuritylab)
