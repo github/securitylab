@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import * as replicate from '../replicate'
+import * as issues from '../issues'
 import { WebhookPayload, PayloadRepository } from '@actions/github/lib/interfaces'
 
 const TEST_ISSUE_1 = 1
@@ -71,7 +72,7 @@ This is the issue body second line
 }
 
 const TEST_GENERATED_ISSUE: replicate.Issue = {
-  title: '[BOUNTY - All For One] Issue Title',
+  title: '[All For One] Issue Title',
   labels: ['All For One','not-a-bounty-label'],
   body: `Original external [issue](https://github.com/test_owner/test_repo/issues/1)
 
@@ -117,4 +118,21 @@ describe('generates proper content', () => {
     expect(issue).toEqual(TEST_GENERATED_ISSUE)
   })
 })
+
+describe('check for duplicates', () => {
+  it('can find duplicates', async () => {
+    const TEST_REF: number = 31
+    const TEST_BODY1 = `Original external [issue](https://github.com/owner/repo/issues/1)\n\nThen there is some text`
+    const TEST_BODY2 = `Original external [issue](https://github.com/owner/repo/issues/2)\n\nThen there is some text`
+    const TEST_INTERNAL_ISSUES: issues.Issue_info[] = [
+      {title: 'issue 1', author: 'author1', body: TEST_BODY1, number: 31},
+      {title: 'issue 2', author: 'author2', body: TEST_BODY2, number: 33}
+    ]
+    let foundRef: number | undefined = issues.internalIssueAlreadyCreated('https://github.com/owner/repo/issues/1', TEST_INTERNAL_ISSUES)
+    expect(foundRef).toEqual(TEST_REF)
+    foundRef = issues.internalIssueAlreadyCreated('https://github.com/owner/repo/issues/3', TEST_INTERNAL_ISSUES)
+    expect(foundRef).toBeUndefined()
+  })
+})
+
 

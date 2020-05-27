@@ -168,7 +168,7 @@ const checkDuplicates = async (payload) => {
     const internalRepoAccessToken = process.env['INT_REPO_TOKEN'];
     const internalRepo = core.getInput('internal_repo') || '/';
     const [owner, repo] = internalRepo.split('/');
-    const internalIssues = await issues_1.getIssueList(owner, repo, internalRepoAccessToken, false);
+    const internalIssues = await issues_1.getIssueList(owner, repo, internalRepoAccessToken, false, false);
     if (!internalIssues) {
         core.debug('Internal error. Cannot check for duplicates. Aborting');
         return true;
@@ -187,7 +187,7 @@ exports.isFirstSubmission = async (payload, token) => {
     const repository = payload.repository;
     if (!repository)
         return false;
-    const allSubmissions = await issues_1.getIssueList(repository.owner.login, repository.name, token, false);
+    const allSubmissions = await issues_1.getIssueList(repository.owner.login, repository.name, token, false, true);
     return !issues_1.isUserAlreadyParticipant((_a = payload.issue) === null || _a === void 0 ? void 0 : _a.user.login, allSubmissions);
 };
 const run = async () => {

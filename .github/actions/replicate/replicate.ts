@@ -162,7 +162,7 @@ const checkDuplicates = async (payload: WebhookPayload): Promise<boolean> => {
     const internalRepoAccessToken: string | undefined = process.env['INT_REPO_TOKEN']
     const internalRepo = core.getInput('internal_repo') || '/'
     const [owner, repo] = internalRepo.split('/')
-    const internalIssues = await getIssueList(owner, repo, internalRepoAccessToken, false)
+    const internalIssues = await getIssueList(owner, repo, internalRepoAccessToken, false, false)
     if(!internalIssues) {
         core.debug('Internal error. Cannot check for duplicates. Aborting')
             return true
@@ -180,7 +180,7 @@ export const isFirstSubmission = async (payload: WebhookPayload, token : string 
     const repository = payload.repository
     if(!repository)
         return false
-    const allSubmissions = await getIssueList(repository.owner.login, repository.name, token, false)
+    const allSubmissions = await getIssueList(repository.owner.login, repository.name, token, false, true)
     return !isUserAlreadyParticipant(payload.issue?.user.login, allSubmissions)
 }
 
