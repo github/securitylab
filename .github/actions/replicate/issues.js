@@ -23,7 +23,7 @@ exports.internalIssueAlreadyCreated = exports.isUserAlreadyParticipant = exports
 const core = __importStar(require("@actions/core"));
 const github = __importStar(require("@actions/github"));
 const replicate = __importStar(require("./replicate"));
-exports.getIssueList = async (owner, repo, token, open) => {
+exports.getIssueList = async (owner, repo, token, open, checkBountyLabels, per_page) => {
     if (!token) {
         core.debug("No valid token for creating issues on the internal repo");
         return;
@@ -37,13 +37,15 @@ exports.getIssueList = async (owner, repo, token, open) => {
             owner,
             repo,
             state: issueState,
+            per_page: per_page ? per_page : 100 // TODO: implement proper pagination
+            // labels: labelFilter -- Does not work properly
         });
         issues.data.forEach(issue => {
             var _a;
-            const bountyLabel = issue.labels.some(label => {
+            const bountyLabel = checkBountyLabels ? issue.labels.some(label => {
                 return replicate.BOUNTY_LABELS.includes(label.name);
-            });
-            if (bountyLabel) {
+            }) : undefined;
+            if (!checkBountyLabels || bountyLabel) {
                 let item = {
                     title: issue.title,
                     author: (_a = issue.user) === null || _a === void 0 ? void 0 : _a.login,
@@ -68,8 +70,11 @@ exports.isUserAlreadyParticipant = (user, externalSubmissions) => {
     });
     return check;
 };
+function escapeRegExp(text) {
+    return text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
 exports.internalIssueAlreadyCreated = (externalSubmissionUrl, internalIssues) => {
-    const searchString = `/Original external [issue](${externalSubmissionUrl})/`;
+    const searchString = new RegExp(escapeRegExp(`Original external [issue](${externalSubmissionUrl})`));
     let ref = undefined;
     internalIssues.some(element => {
         if (element.body.search(searchString) != -1) {

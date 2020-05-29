@@ -21,6 +21,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(require("@actions/core"));
 const replicate = __importStar(require("../replicate"));
+const issues = __importStar(require("../issues"));
 const TEST_ISSUE_1 = 1;
 const TEST_REPOSITORY = {
     full_name: 'myuser/myrepo',
@@ -83,8 +84,9 @@ This is the issue body second line
     }
 };
 const TEST_GENERATED_ISSUE = {
-    title: '[BOUNTY - All For One] Issue Title',
+    title: '[All For One] Issue Title',
     labels: ['All For One', 'not-a-bounty-label'],
+    bountyType: 'All For One',
     body: `Original external [issue](https://github.com/test_owner/test_repo/issues/1)
 
 Sumitted by [ghsecuritylab](https://github.com/ghsecuritylab)
@@ -121,6 +123,21 @@ describe('generates proper content', () => {
         const issue = await replicate.generateInternalIssueContentFromPayload(TEST_PAYLOAD);
         expect(issue).toBeDefined();
         expect(issue).toEqual(TEST_GENERATED_ISSUE);
+    });
+});
+describe('check for duplicates', () => {
+    it('can find duplicates', async () => {
+        const TEST_REF = 31;
+        const TEST_BODY1 = `Original external [issue](https://github.com/owner/repo/issues/1)\n\nThen there is some text`;
+        const TEST_BODY2 = `Original external [issue](https://github.com/owner/repo/issues/2)\n\nThen there is some text`;
+        const TEST_INTERNAL_ISSUES = [
+            { title: 'issue 1', author: 'author1', body: TEST_BODY1, number: 31 },
+            { title: 'issue 2', author: 'author2', body: TEST_BODY2, number: 33 }
+        ];
+        let foundRef = issues.internalIssueAlreadyCreated('https://github.com/owner/repo/issues/1', TEST_INTERNAL_ISSUES);
+        expect(foundRef).toEqual(TEST_REF);
+        foundRef = issues.internalIssueAlreadyCreated('https://github.com/owner/repo/issues/3', TEST_INTERNAL_ISSUES);
+        expect(foundRef).toBeUndefined();
     });
 });
 //# sourceMappingURL=replicate.test.js.map

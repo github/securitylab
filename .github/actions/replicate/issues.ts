@@ -5,7 +5,7 @@ import * as replicate from './replicate'
 export type Issue_info = {title: string, author: string, body: string, number: number}
 type Issue_state = 'open' | 'all' | 'closed' | undefined
 
-export const getIssueList = async (owner: string, repo: string, token: string | undefined, open: boolean) : Promise<Issue_info[] | undefined> => {
+export const getIssueList = async (owner: string, repo: string, token: string | undefined, open: boolean, checkBountyLabels: boolean, per_page?: number) : Promise<Issue_info[] | undefined> => {
     if(!token) {
         core.debug("No valid token for creating issues on the internal repo")
         return
@@ -19,14 +19,15 @@ export const getIssueList = async (owner: string, repo: string, token: string | 
             owner, 
             repo,
             state: issueState,
+            per_page: per_page? per_page : 100 // TODO: implement proper pagination
             // labels: labelFilter -- Does not work properly
         })
 
         issues.data.forEach(issue => {
-            const bountyLabel = issue.labels.some(label => {
-                return replicate.BOUNTY_LABELS.includes(label.name)
-            })
-            if(bountyLabel){
+            const bountyLabel = checkBountyLabels? issue.labels.some(label => {
+                return replicate.BOUNTY_LABELS.includes(label.name as replicate.BountyType)
+            }) : undefined
+            if(!checkBountyLabels || bountyLabel){
                 let item: Issue_info = {
                     title: issue.title,
                     author: issue.user?.login,
@@ -52,8 +53,12 @@ export const isUserAlreadyParticipant = (user: string, externalSubmissions: Issu
     return check
 }
 
+function escapeRegExp(text: string) {
+    return text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+}
+
 export const internalIssueAlreadyCreated = (externalSubmissionUrl: string | undefined, internalIssues: Issue_info[]) : number | undefined => {
-    const searchString = `/Original external [issue](${externalSubmissionUrl})/`
+    const searchString = new RegExp(escapeRegExp(`Original external [issue](${externalSubmissionUrl})`))
     let ref: number | undefined = undefined
     internalIssues.some( element => {
         if(element.body.search(searchString) != -1) {
