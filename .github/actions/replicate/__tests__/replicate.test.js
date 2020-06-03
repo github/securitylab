@@ -89,7 +89,7 @@ const TEST_GENERATED_ISSUE = {
     bountyType: 'All For One',
     body: `Original external [issue](https://github.com/test_owner/test_repo/issues/1)
 
-Sumitted by [ghsecuritylab](https://github.com/ghsecuritylab)
+Submitted by [ghsecuritylab](https://github.com/ghsecuritylab)
 
 # This is the issue title
 This is the issue body first line

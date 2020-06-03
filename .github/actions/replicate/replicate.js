@@ -25,23 +25,23 @@ const github = __importStar(require("@actions/github"));
 const issues_1 = require("./issues");
 exports.BOUNTY_LABELS = ['All For One', 'The Bug Slayer'];
 const COMMENT_TASK_LIST_AFO = `## Task List
-- [ ] Initial assessment - Please record your decision in the comment below
-  - [ ] CodeQL
-  - [ ] Security Lab
-- [ ] CodeQL: Generate result set and post the URL in the comment
-- [ ] Security Lab assessment: 
-  - [ ] Assess the Vulnerability Impact, the Vulnerability Scope, and the False Positive ratio based on the provided CodeQL result set
+- [ ] CodeQL Initial assessment - In case of rejection, please record your decision in the comment below:
+  - [ ] Acceptance
+  - [ ] Generate result set and post the URL in the comment
+- [ ] Security Lab assessment - In case of rejection, please record your decision in the comment below: 
+  - [ ] Acceptance
+  - [ ] Score the Vulnerability Impact, the Vulnerability Scope, and the False Positive ratio based on the provided CodeQL result set
+  - [ ] Document your assessments in comments below, for the CodeQL team 
   - [ ] Provide feedback to the author in the PR
 - [ ] CodeQL assessment:
-  - [ ] Assess the Code Maturity and the Documentation
   - [ ] Provide feedback to the author in the PR
   - [ ] Merge the PR into the experimental folder
-- [ ] Score - Both teams fill the score table according to the version of the PR merged into the repository
+  - [ ] Score the Code Maturity and the Documentation
 - [ ] Bounty Payment
 `;
 const COMMENT_TASK_LIST_BS = `## Task List
-- [ ] Initial assessment from Security Lab
 - [ ] Security Lab assessment:
+  - [ ] Acceptance
   - [ ] Confirm the CVE 
   - [ ] Assess the Vulnerability Impact, the Vulnerability Scope
   - [ ] Get the CodeQL scores (False Positive ratio, Code Maturity and the Documentation) from the previous query rating
@@ -93,7 +93,7 @@ exports.generateInternalIssueContentFromPayload = async (payload) => {
         // And with the current situation, the robot with Read access cannot add labels to the issue
         result.body = `Original external [issue](${issue.html_url})
 
-Sumitted by [${issue.user.login}](${issue.user.html_url})
+Submitted by [${issue.user.login}](${issue.user.html_url})
 
 ${issue.body ? issue.body : ""}`;
     return result;
