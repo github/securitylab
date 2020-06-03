@@ -86,7 +86,7 @@ export const generateInternalIssueContentFromPayload = async (payload: WebhookPa
     // And with the current situation, the robot with Read access cannot add labels to the issue
     result.body = `Original external [issue](${issue.html_url})
 
-Sumitted by [${issue.user.login}](${issue.user.html_url})
+Submitted by [${issue.user.login}](${issue.user.html_url})
 
 ${issue.body? issue.body : ""}`
 
