@@ -80,4 +80,4 @@ where
   not callsSetVerifyCallback(v)
 select fc,
   "boost::asio::ssl context calls set_verify_mode without a callback $@, if this is a client context then hostname validation may be missing",
-  v, "on the socket (" + v + ")"
+  v, "on the socket (" + v.getName() + ")"
