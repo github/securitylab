@@ -66,8 +66,22 @@ const COMMENT_SCORING = `## Scoring
 - [ ] Accept
 `;
 const COMMENT_FIRST_SUBMISSION = `## :tada: First submission for this user :tada:`;
-exports.generateInternalIssueContentFromPayload = async (payload) => {
-    const issue = payload.issue;
+const getIssueFromRef = async (issueRef) => {
+    if (!issueRef)
+        return undefined;
+    const token = process.env['GITHUB_TOKEN'];
+    if (token === undefined)
+        return undefined;
+    const octokit = new github.GitHub(token);
+    const issueResponse = await octokit.issues.get({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        issue_number: Number(issueRef),
+    });
+    return issueResponse.data;
+};
+exports.generateInternalIssueContentFromPayload = async (payload, issueRef) => {
+    const issue = await getIssueFromRef(issueRef) || (payload === null || payload === void 0 ? void 0 : payload.issue);
     let result = { title: 'none', body: 'none', labels: [], bountyType: 'All For One' };
     let bountyIssue = false;
     let bountyType = '';
@@ -203,7 +217,7 @@ exports.isFirstSubmission = async (payload, token) => {
     return !issues_1.isUserAlreadyParticipant((_a = payload.issue) === null || _a === void 0 ? void 0 : _a.user.login, allSubmissions);
 };
 const run = async () => {
-    const internalIssue = await exports.generateInternalIssueContentFromPayload(github.context.payload);
+    const internalIssue = await exports.generateInternalIssueContentFromPayload(github.context.payload, core.getInput('specific_issue'));
     if (!internalIssue)
         return;
     const existingIssue = core.getInput('existingIssue') || true;

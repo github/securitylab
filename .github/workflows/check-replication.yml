@@ -1,0 +1,21 @@
+name: 'Bounty issue replication workflow'
+on: 
+  schedule: 
+    - cron: '0 17 * * *'
+
+jobs:
+  build:
+    name: check-replicate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - run: npm install
+      - run: npm run build
+      - uses: ./.github/actions/check
+        with:
+          internal_repo: 'github/securitylab-bounties'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INT_REPO_TOKEN: ${{ secrets.INT_REPO_TOKEN }}

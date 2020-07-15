@@ -1,0 +1,27 @@
+name: 'Bounty issue manual replication workflow'
+on:
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: 'Issue number to replicate'
+        required: true
+
+jobs:
+  build:
+    name: replicate-manual
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - run: npm install
+      - run: npm run build
+      - uses: ./.github/actions/replicate
+        with:
+          internal_repo: 'github/securitylab-bounties'
+          existing_issue: false
+          specific_issue: ${{ github.event.inputs.issue }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INT_REPO_TOKEN: ${{ secrets.INT_REPO_TOKEN }}
+

@@ -1,0 +1,10 @@
+name: 'check-replication-action'
+description: 'Checks that all external bounties are replicated internally'
+author: 'xcorail'
+inputs:
+  internal_repo: 
+    description: 'The destination repo for the internal issue'
+    default: 'github/securitylab-bounties'
+runs:
+  using: 'node12'
+  main: './check-replication.js'

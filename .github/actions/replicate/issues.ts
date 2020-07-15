@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import * as replicate from './replicate'
 
-export type Issue_info = {title: string, author: string, body: string, number: number}
+export type Issue_info = {title: string, author: string, body: string, number: number, html_url?: string}
 type Issue_state = 'open' | 'all' | 'closed' | undefined
 
 export const getIssueList = async (owner: string, repo: string, token: string | undefined, open: boolean, checkBountyLabels: boolean, per_page?: number) : Promise<Issue_info[] | undefined> => {
@@ -32,7 +32,8 @@ export const getIssueList = async (owner: string, repo: string, token: string | 
                     title: issue.title,
                     author: issue.user?.login,
                     body: issue.body? issue.body : '',
-                    number: issue.number
+                    number: issue.number,
+                    html_url: issue.html_url
                 }
                 result.push(item)
             }

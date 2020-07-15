@@ -50,7 +50,8 @@ exports.getIssueList = async (owner, repo, token, open, checkBountyLabels, per_p
                     title: issue.title,
                     author: (_a = issue.user) === null || _a === void 0 ? void 0 : _a.login,
                     body: issue.body ? issue.body : '',
-                    number: issue.number
+                    number: issue.number,
+                    html_url: issue.html_url
                 };
                 result.push(item);
             }
