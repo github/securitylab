@@ -59,7 +59,6 @@ export const generateInternalIssueContentFromPayload = async (payload: WebhookPa
     const issue = payload.issue
     let result: Issue = {title: 'none', body: 'none', labels: [], bountyType: 'All For One'}
     let bountyIssue: boolean = false
-    let bountyType = ''
 
     if(!issue || !issue.user || !issue.html_url) {
         core.debug("Invalid issue payload")
@@ -71,7 +70,7 @@ export const generateInternalIssueContentFromPayload = async (payload: WebhookPa
         if(!bountyIssue) {
             bountyIssue = BOUNTY_LABELS.includes(element.name)
             if(bountyIssue) {
-                bountyType = element.name
+                result.bountyType = element.name
             }
         }
     });
@@ -81,7 +80,7 @@ export const generateInternalIssueContentFromPayload = async (payload: WebhookPa
         return undefined
     }
 
-    result.title = `[${bountyType}] ${issue.title}`,
+    result.title = `[${result.bountyType}] ${issue.title}`,
     // In order to differentiate immediately the issues from others in the repo
     // And with the current situation, the robot with Read access cannot add labels to the issue
     result.body = `Original external [issue](${issue.html_url})
