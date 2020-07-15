@@ -70,7 +70,6 @@ exports.generateInternalIssueContentFromPayload = async (payload) => {
     const issue = payload.issue;
     let result = { title: 'none', body: 'none', labels: [], bountyType: 'All For One' };
     let bountyIssue = false;
-    let bountyType = '';
     if (!issue || !issue.user || !issue.html_url) {
         core.debug("Invalid issue payload");
         return undefined;
@@ -80,7 +79,7 @@ exports.generateInternalIssueContentFromPayload = async (payload) => {
         if (!bountyIssue) {
             bountyIssue = exports.BOUNTY_LABELS.includes(element.name);
             if (bountyIssue) {
-                bountyType = element.name;
+                result.bountyType = element.name;
             }
         }
     });
@@ -88,7 +87,7 @@ exports.generateInternalIssueContentFromPayload = async (payload) => {
         core.debug("Not a bounty");
         return undefined;
     }
-    result.title = `[${bountyType}] ${issue.title}`,
+    result.title = `[${result.bountyType}] ${issue.title}`,
         // In order to differentiate immediately the issues from others in the repo
         // And with the current situation, the robot with Read access cannot add labels to the issue
         result.body = `Original external [issue](${issue.html_url})
