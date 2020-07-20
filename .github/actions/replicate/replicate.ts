@@ -7,6 +7,7 @@ export const BOUNTY_LABELS = ['All For One', 'The Bug Slayer'] as const
 export type BountyType = typeof BOUNTY_LABELS[number]
 type CommentMap = {[K in BountyType]: string}
 export type Issue = {title: string, body: string, labels: string[], bountyType: BountyType}
+type GitHubIssue = { [key: string]: any, number: number, html_url?: string | undefined, body?: string | undefined}
 
 const COMMENT_TASK_LIST_AFO = `## Task List
 - [ ] CodeQL Initial assessment - In case of rejection, please record your decision in the comment below:
@@ -55,8 +56,23 @@ const COMMENT_SCORING = `## Scoring
 
 const COMMENT_FIRST_SUBMISSION = `## :tada: First submission for this user :tada:`
 
-export const generateInternalIssueContentFromPayload = async (payload: WebhookPayload): Promise<Issue | undefined> => {
-    const issue = payload.issue
+const getIssueFromRef = async (issueRef: string | undefined): Promise<GitHubIssue | undefined> => {
+    if(!issueRef)
+        return undefined
+    const token: string | undefined = process.env['GITHUB_TOKEN']
+    if(token === undefined)
+        return undefined
+    const octokit: github.GitHub = new github.GitHub(token)
+    const issueResponse = await octokit.issues.get({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        issue_number: Number(issueRef),
+      });
+    return issueResponse.data  
+}
+
+export const generateInternalIssueContentFromPayload = async (payload?: WebhookPayload, issueRef?: string): Promise<Issue | undefined> => {
+    const issue = await getIssueFromRef(issueRef) || payload?.issue
     let result: Issue = {title: 'none', body: 'none', labels: [], bountyType: 'All For One'}
     let bountyIssue: boolean = false
 
@@ -201,7 +217,7 @@ export const isFirstSubmission = async (payload: WebhookPayload, token : string 
 }
 
 const run = async (): Promise<void> => {
-    const internalIssue = await generateInternalIssueContentFromPayload(github.context.payload)
+    const internalIssue = await generateInternalIssueContentFromPayload(github.context.payload, core.getInput('specific_issue'))
     if(!internalIssue)
         return
 

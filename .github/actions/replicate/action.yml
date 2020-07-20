@@ -1,5 +1,5 @@
-name: 'debug-action'
-description: 'Outputs debug information'
+name: 'replicate-action'
+description: 'Replicates bounty internal'
 author: 'xcorail'
 inputs:
   internal_repo: 
@@ -8,6 +8,9 @@ inputs:
   existing_issue:
     description: 'Launching on existing issues: we check duplicates, and we do not comment the original issue'
     default: false
+  specific_issue:
+    description: 'Specific issue to replicate, in case of manual trigger'
+    default: ''
 runs:
   using: 'node12'
   main: './replicate.js'
