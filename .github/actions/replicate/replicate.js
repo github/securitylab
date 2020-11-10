@@ -132,6 +132,13 @@ exports.createInternalIssue = async (payload, issue) => {
         });
         internal_ref = issueResponse.data.number;
         core.debug(`issue created: ${internal_ref}`);
+        const labelsResponse = await octokit.issues.addLabels({
+            owner,
+            repo,
+            issue_number: internal_ref,
+            labels: issue.labels
+        });
+        core.debug(`Labels addition result: ${labelsResponse.status} ${(labelsResponse.status == 200) ? "OK" : "FAILED"}`);
         const issueCommentResponse1 = await octokit.issues.createComment({
             owner,
             repo,

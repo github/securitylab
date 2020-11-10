@@ -33,29 +33,35 @@ exports.getIssueList = async (owner, repo, token, open, checkBountyLabels, per_p
         const octokit = new github.GitHub(token);
         const issueState = open ? 'open' : 'all';
         // const labelFilter: string = replicate.BOUNTY_LABELS.join(',')
-        const issues = await octokit.issues.listForRepo({
-            owner,
-            repo,
-            state: issueState,
-            per_page: per_page ? per_page : 100 // TODO: implement proper pagination
-            // labels: labelFilter -- Does not work properly
-        });
-        issues.data.forEach(issue => {
-            var _a;
-            const bountyLabel = checkBountyLabels ? issue.labels.some(label => {
-                return replicate.BOUNTY_LABELS.includes(label.name);
-            }) : undefined;
-            if (!checkBountyLabels || bountyLabel) {
-                let item = {
-                    title: issue.title,
-                    author: (_a = issue.user) === null || _a === void 0 ? void 0 : _a.login,
-                    body: issue.body ? issue.body : '',
-                    number: issue.number,
-                    html_url: issue.html_url
-                };
-                result.push(item);
-            }
-        });
+        const issuesPerPage = per_page ? per_page : 50;
+        let pageNb = 0;
+        do {
+            const issues = await octokit.issues.listForRepo({
+                owner,
+                repo,
+                state: issueState,
+                per_page: issuesPerPage,
+                page: pageNb
+                // labels: labelFilter -- Does not work properly
+            });
+            issues.data.forEach(issue => {
+                var _a;
+                const bountyLabel = checkBountyLabels ? issue.labels.some(label => {
+                    return replicate.BOUNTY_LABELS.includes(label.name);
+                }) : undefined;
+                if (!checkBountyLabels || bountyLabel) {
+                    let item = {
+                        title: issue.title,
+                        author: (_a = issue.user) === null || _a === void 0 ? void 0 : _a.login,
+                        body: issue.body ? issue.body : '',
+                        number: issue.number,
+                        html_url: issue.html_url
+                    };
+                    result.push(item);
+                }
+            });
+            pageNb = (issues.data.length < issuesPerPage) ? -1 : pageNb + 1;
+        } while (pageNb >= 0);
         return result;
     }
     catch (error) {
