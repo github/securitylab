@@ -25,6 +25,10 @@ const github = __importStar(require("@actions/github"));
 const issues_1 = require("./issues");
 exports.BOUNTY_LABELS = ['All For One', 'The Bug Slayer'];
 const COMMENT_TASK_LIST_AFO = `## Task List
+
+- **If this is your first time in this process, have a look at that [5 min video](https://drive.google.com/drive/folders/1Jq6UfqP3CRF9Iafde86_IPAQPfdgH5rR)**
+- **Visit the [documented process](https://github.com/github/pe-security-lab/blob/master/docs/bug_bounty.md)**
+
 - [ ] CodeQL Initial assessment - In case of rejection, please record your decision in the comment below:
   - [ ] Acceptance
   - [ ] Generate result set and post the URL in the comment
@@ -52,6 +56,10 @@ const COMMENT_TASK_LIST = {
     'The Bug Slayer': COMMENT_TASK_LIST_BS
 };
 const COMMENT_SCORING = `## Scoring
+
+- **Visit the [scoring guidelines](https://github.com/github/pe-security-lab/blob/master/docs/bug_bounty.md)**
+- **Accepted values are: 0 (= NA), or 1 (minimal) to 5 (maximal). Any other value will throw an error**
+
 | Criterion | Score|
 |--- | --- |
 | Vulnerability Impact | | 
@@ -132,6 +140,13 @@ exports.createInternalIssue = async (payload, issue) => {
         });
         internal_ref = issueResponse.data.number;
         core.debug(`issue created: ${internal_ref}`);
+        const labelsResponse = await octokit.issues.addLabels({
+            owner,
+            repo,
+            issue_number: internal_ref,
+            labels: issue.labels
+        });
+        core.debug(`Labels addition result: ${labelsResponse.status} ${(labelsResponse.status == 200) ? "OK" : "FAILED"}`);
         const issueCommentResponse1 = await octokit.issues.createComment({
             owner,
             repo,
