@@ -32,11 +32,13 @@ const run = async () => {
         return;
     }
     else {
+        core.debug(`Retrieved ${internalIssues === null || internalIssues === void 0 ? void 0 : internalIssues.length} internal issues`);
         const externalIssues = await issues_1.getIssueList(github.context.repo.owner, github.context.repo.repo, process.env['GITHUB_TOKEN'], true, true);
         if (!externalIssues) {
             core.setFailed(`Internal error when retrieving all issues.`);
             return;
         }
+        core.debug(`Retrieved ${externalIssues === null || externalIssues === void 0 ? void 0 : externalIssues.length} external issues`);
         let failed = false;
         externalIssues.forEach(issue => {
             const ref = issues_1.internalIssueAlreadyCreated(issue === null || issue === void 0 ? void 0 : issue.html_url, internalIssues);

@@ -1,4 +1,4 @@
-name: 'Bounty issue replication workflow'
+name: 'Bounty issue replication check'
 on: 
   schedule: 
     - cron: '0 17 * * *'

@@ -15,29 +15,35 @@ export const getIssueList = async (owner: string, repo: string, token: string | 
         const octokit = new github.GitHub(token)
         const issueState: Issue_state = open? 'open' : 'all'
         // const labelFilter: string = replicate.BOUNTY_LABELS.join(',')
-        const issues = await octokit.issues.listForRepo({
-            owner, 
-            repo,
-            state: issueState,
-            per_page: per_page? per_page : 100 // TODO: implement proper pagination
-            // labels: labelFilter -- Does not work properly
-        })
-
-        issues.data.forEach(issue => {
-            const bountyLabel = checkBountyLabels? issue.labels.some(label => {
-                return replicate.BOUNTY_LABELS.includes(label.name as replicate.BountyType)
-            }) : undefined
-            if(!checkBountyLabels || bountyLabel){
-                let item: Issue_info = {
-                    title: issue.title,
-                    author: issue.user?.login,
-                    body: issue.body? issue.body : '',
-                    number: issue.number,
-                    html_url: issue.html_url
+        const issuesPerPage = per_page? per_page : 50
+        let pageNb = 0
+        do {
+            const issues = await octokit.issues.listForRepo({
+                owner, 
+                repo,
+                state: issueState,
+                per_page: issuesPerPage,
+                page: pageNb
+                // labels: labelFilter -- Does not work properly
+            })
+    
+            issues.data.forEach(issue => {
+                const bountyLabel = checkBountyLabels? issue.labels.some(label => {
+                    return replicate.BOUNTY_LABELS.includes(label.name as replicate.BountyType)
+                }) : undefined
+                if(!checkBountyLabels || bountyLabel){
+                    let item: Issue_info = {
+                        title: issue.title,
+                        author: issue.user?.login,
+                        body: issue.body? issue.body : '',
+                        number: issue.number,
+                        html_url: issue.html_url
+                    }
+                    result.push(item)
                 }
-                result.push(item)
-            }
-        });
+            });
+            pageNb = (issues.data.length < issuesPerPage)? -1 : pageNb + 1
+        } while (pageNb >= 0)
         return result
     } catch(error) {
         core.debug(error.message)

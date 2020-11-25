@@ -11,11 +11,13 @@ const run = async (): Promise<void> => {
         core.setFailed(`Internal error. Cannot access the internal repo ${internalRepo}. Aborting`)
         return
     } else {
+        core.debug(`Retrieved ${internalIssues?.length} internal issues`)
         const externalIssues = await getIssueList(github.context.repo.owner, github.context.repo.repo, process.env['GITHUB_TOKEN'], true, true)
         if(!externalIssues) {
             core.setFailed(`Internal error when retrieving all issues.`)
             return
         }
+        core.debug(`Retrieved ${externalIssues?.length} external issues`)
         let failed = false
         externalIssues.forEach( issue => {
             const ref = internalIssueAlreadyCreated(issue?.html_url, internalIssues)

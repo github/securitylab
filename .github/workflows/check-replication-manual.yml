@@ -1,4 +1,4 @@
-name: 'Bounty issue replication workflow'
+name: 'Bounty issue manual replication check'
 on: workflow_dispatch
 
 jobs:
