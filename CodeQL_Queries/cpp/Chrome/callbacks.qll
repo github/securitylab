@@ -104,7 +104,6 @@ predicate reach(Function f, Function g) {
       else
         overrides*(g, gc.getTarget())
       |
-      g = gc.getTarget() and
       gc.getEnclosingFunction() = f
     ) or
     exists(CallbackSinks sink | sink.getEnclosingCallable() = f and
