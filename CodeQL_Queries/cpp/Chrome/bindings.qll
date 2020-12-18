@@ -11,7 +11,7 @@ class StrongBinding extends ClassTemplateInstantiation {
   }
   
   Type getBindingType() {
-    result = this.getTemplateArgument(0).stripType()
+    result = this.getTemplateArgument(0).(Type).stripType()
   }
 }
 
@@ -21,7 +21,7 @@ class Binding extends ClassTemplateInstantiation {
   }
   
   Type getBindingType() {
-    result = this.getTemplateArgument(0).stripType()
+    result = this.getTemplateArgument(0).(Type).stripType()
   }
 }
 
@@ -32,7 +32,7 @@ class MojoReceiver extends ClassTemplateInstantiation {
   }
   
   Type getBindingType() {
-    result = this.getTemplateArgument(0).stripType()
+    result = this.getTemplateArgument(0).(Type).stripType()
   }
 }
 
