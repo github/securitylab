@@ -26,7 +26,7 @@ const issues_1 = require("./issues");
 exports.BOUNTY_LABELS = ['All For One', 'The Bug Slayer'];
 const COMMENT_TASK_LIST_AFO = `## Task List
 
-- **If this is your first time in this process, have a look at that [5 min video](https://drive.google.com/drive/folders/1Jq6UfqP3CRF9Iafde86_IPAQPfdgH5rR)**
+- **If this is your first time in this process, have a look at that [5 min video](https://drive.google.com/file/d/1Uy3JukURoSk-2Bq7EjyagVdpsyvKI67E)**
 - **Visit the [documented process](https://github.com/github/pe-security-lab/blob/master/docs/bug_bounty.md)**
 
 - [ ] CodeQL Initial assessment - In case of rejection, please record your decision in the comment below:
