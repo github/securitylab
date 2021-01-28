@@ -2,7 +2,7 @@
  * @name Command injection from user-controlled Actions context
  * @description Using user-controlled GitHub Actions contexts in a command line may allow a malicious
  *              user to change the meaning of the command.
- * @id java/actions/command-injection
+ * @id javascript/actions/command-injection
  * @kind problem
  * @problem.severity error
  */
