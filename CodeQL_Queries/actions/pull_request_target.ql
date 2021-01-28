@@ -3,7 +3,7 @@
  * @description Workflows triggered on `pull_request_target` have read/write tokens for the base repository and the access to secrets.
  *              By explicitly checking out and running the build script from a fork the untrusted code is running in an environment
  *              that is able to push to the base repository and to access secrets.
- * @id java/actions/pull_request_target
+ * @id javascript/actions/pull_request_target
  * @kind problem
  * @problem.severity warning
  */
