@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { WebhookPayload } from '@actions/github/lib/interfaces'
-import { getIssueList, internalIssueAlreadyCreated, isUserAlreadyParticipant } from './issues'
+import { getIssueList, internalIssueAlreadyCreated } from './issues'
 
 export const BOUNTY_LABELS = ['All For One', 'The Bug Slayer'] as const
 export type BountyType = typeof BOUNTY_LABELS[number]
@@ -12,7 +12,7 @@ type GitHubIssue = { [key: string]: any, number: number, html_url?: string | und
 const COMMENT_TASK_LIST_AFO = `## Task List
 
 - **If this is your first time in this process, have a look at that [5 min video](https://drive.google.com/drive/folders/1Jq6UfqP3CRF9Iafde86_IPAQPfdgH5rR)**
-- **Visit the [documented process](https://github.com/github/pe-security-lab/blob/master/docs/bug_bounty.md)**
+- **Visit the [documented process](https://github.com/github/pe-security-lab/blob/main/docs/bug_bounty.md)**
 
 - [ ] CodeQL Initial assessment - In case of rejection, please record your decision in the comment below:
   - [ ] Acceptance
@@ -45,7 +45,7 @@ const COMMENT_TASK_LIST: CommentMap = {
 
 const COMMENT_SCORING = `## Scoring
 
-- **Visit the [scoring guidelines](https://github.com/github/pe-security-lab/blob/master/docs/bug_bounty.md)**
+- **Visit the [scoring guidelines](https://github.com/github/pe-security-lab/blob/main/docs/bug_bounty.md)**
 - **Accepted values are: 0 (= NA), or 1 (minimal) to 5 (maximal). Any other value will throw an error**
 
 | Criterion | Score|
@@ -61,8 +61,6 @@ const COMMENT_SCORING = `## Scoring
 - [ ] Reject with encouragement swag (Decision: Dev Advocacy)
 - [ ] Accept
 `
-
-const COMMENT_FIRST_SUBMISSION = `## :tada: First submission for this user :tada:`
 
 const getIssueFromRef = async (issueRef: string | undefined): Promise<GitHubIssue | undefined> => {
     if(!issueRef)
@@ -116,9 +114,8 @@ ${issue.body? issue.body : ""}`
     return result
 }
 
-export const createInternalIssue = async (payload: WebhookPayload, issue: Issue) : Promise<number | undefined> => {
+export const createInternalIssue = async (issue: Issue) : Promise<number | undefined> => {
     const internalRepoAccessToken: string | undefined = process.env['INT_REPO_TOKEN']
-    const token: string | undefined = process.env['GITHUB_TOKEN']
     let internal_ref: number | undefined = undefined
 
     if(!internalRepoAccessToken) {
@@ -162,47 +159,17 @@ export const createInternalIssue = async (payload: WebhookPayload, issue: Issue)
         })
         core.debug(`comment created ${issueCommentResponse2.data.url}`)
 
-        if(await isFirstSubmission(payload, token)) {
-            const issueCommentResponse3 = await octokit.issues.createComment({
-                owner,
-                repo,
-                issue_number: internal_ref,
-                body: COMMENT_FIRST_SUBMISSION,
-            })
-            core.debug(`comment created ${issueCommentResponse3.data.url}`)
-        }
+        const issueCard = await octokit.projects.createCard({
+            column_id: (issue.labels.includes(BOUNTY_LABELS[1]))? 10205381 : 10205379,
+            content_id: internal_ref,
+            content_type: 'issue',
+        });
+        core.debug(`Card creation status: ${issueCard.status}`)
+
     } catch(error) {
         core.debug(error.message)
     }
     return internal_ref
-}
-
-const commentOriginalIssue = async (payload: WebhookPayload, internal_issue: number): Promise<void> => {
-    const repository = payload.repository
-    const external_issue = payload.issue? payload.issue.number : 0
-    const token: string | undefined = process.env['GITHUB_TOKEN']
-
-    if(!token) {
-        core.debug("No valid token for this repo")
-        return
-    }
-    if(!repository || external_issue <=0) {
-        core.debug("Invalid payload")
-        return
-    }
-    try {
-        const octokit: github.GitHub = new github.GitHub(token)
-        const issueCommentResponseOriginal = await octokit.issues.createComment({
-            owner: repository.owner.login,
-            repo: repository.name,
-            issue_number: external_issue,
-            body: `Thanks for submitting this bounty :heart:!
-            Your submission is tracked internally with the issue reference ${internal_issue}.`,
-        })
-        core.debug(`comment created ${issueCommentResponseOriginal.data.url}`)
-    } catch (error) {
-        core.debug(error.message)
-    }
 }
 
 const checkDuplicates = async (payload: WebhookPayload): Promise<boolean> => {
@@ -223,30 +190,17 @@ const checkDuplicates = async (payload: WebhookPayload): Promise<boolean> => {
     return false
 }
 
-export const isFirstSubmission = async (payload: WebhookPayload, token : string | undefined) : Promise<boolean> => {
-    const repository = payload.repository
-    if(!repository)
-        return false
-    const allSubmissions = await getIssueList(repository.owner.login, repository.name, token, false, true)
-    return !isUserAlreadyParticipant(payload.issue?.user.login, allSubmissions)
-}
-
 const run = async (): Promise<void> => {
     const internalIssue = await generateInternalIssueContentFromPayload(github.context.payload, core.getInput('specific_issue'))
     if(!internalIssue)
         return
 
-    const existingIssue = core.getInput('existingIssue') || true
-    if(existingIssue && await checkDuplicates(github.context.payload)) 
+    if(await checkDuplicates(github.context.payload)) 
         return
 
-    const internal_ref = await createInternalIssue(github.context.payload, internalIssue)
+    const internal_ref = await createInternalIssue(internalIssue)
     if(!internal_ref)
         return
-    
-    if(!existingIssue) {
-        commentOriginalIssue(github.context.payload, internal_ref)
-    }
 }
 
 run()
