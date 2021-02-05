@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isFirstSubmission = exports.createInternalIssue = exports.generateInternalIssueContentFromPayload = exports.BOUNTY_LABELS = void 0;
+exports.createInternalIssue = exports.generateInternalIssueContentFromPayload = exports.BOUNTY_LABELS = void 0;
 const core = __importStar(require("@actions/core"));
 const github = __importStar(require("@actions/github"));
 const issues_1 = require("./issues");
@@ -27,7 +27,7 @@ exports.BOUNTY_LABELS = ['All For One', 'The Bug Slayer'];
 const COMMENT_TASK_LIST_AFO = `## Task List
 
 - **If this is your first time in this process, have a look at that [5 min video](https://drive.google.com/file/d/1Uy3JukURoSk-2Bq7EjyagVdpsyvKI67E)**
-- **Visit the [documented process](https://github.com/github/pe-security-lab/blob/master/docs/bug_bounty.md)**
+- **Visit the [documented process](https://github.com/github/pe-security-lab/blob/main/docs/bug_bounty.md)**
 
 - [ ] CodeQL Initial assessment - In case of rejection, please record your decision in the comment below:
   - [ ] Acceptance
@@ -57,7 +57,7 @@ const COMMENT_TASK_LIST = {
 };
 const COMMENT_SCORING = `## Scoring
 
-- **Visit the [scoring guidelines](https://github.com/github/pe-security-lab/blob/master/docs/bug_bounty.md)**
+- **Visit the [scoring guidelines](https://github.com/github/pe-security-lab/blob/main/docs/bug_bounty.md)**
 - **Accepted values are: 0 (= NA), or 1 (minimal) to 5 (maximal). Any other value will throw an error**
 
 | Criterion | Score|
@@ -73,7 +73,6 @@ const COMMENT_SCORING = `## Scoring
 - [ ] Reject with encouragement swag (Decision: Dev Advocacy)
 - [ ] Accept
 `;
-const COMMENT_FIRST_SUBMISSION = `## :tada: First submission for this user :tada:`;
 const getIssueFromRef = async (issueRef) => {
     if (!issueRef)
         return undefined;
@@ -119,9 +118,8 @@ Submitted by [${issue.user.login}](${issue.user.html_url})
 ${issue.body ? issue.body : ""}`;
     return result;
 };
-exports.createInternalIssue = async (payload, issue) => {
+exports.createInternalIssue = async (issue) => {
     const internalRepoAccessToken = process.env['INT_REPO_TOKEN'];
-    const token = process.env['GITHUB_TOKEN'];
     let internal_ref = undefined;
     if (!internalRepoAccessToken) {
         core.debug("No valid token for creating issues on the internal repo");
@@ -161,47 +159,17 @@ exports.createInternalIssue = async (payload, issue) => {
             body: COMMENT_SCORING,
         });
         core.debug(`comment created ${issueCommentResponse2.data.url}`);
-        if (await exports.isFirstSubmission(payload, token)) {
-            const issueCommentResponse3 = await octokit.issues.createComment({
-                owner,
-                repo,
-                issue_number: internal_ref,
-                body: COMMENT_FIRST_SUBMISSION,
-            });
-            core.debug(`comment created ${issueCommentResponse3.data.url}`);
-        }
+        const issueCard = await octokit.projects.createCard({
+            column_id: (issue.labels.includes(exports.BOUNTY_LABELS[1])) ? 10205381 : 10205379,
+            content_id: internal_ref,
+            content_type: 'issue',
+        });
+        core.debug(`Card creation status: ${issueCard.status}`);
     }
     catch (error) {
         core.debug(error.message);
     }
     return internal_ref;
-};
-const commentOriginalIssue = async (payload, internal_issue) => {
-    const repository = payload.repository;
-    const external_issue = payload.issue ? payload.issue.number : 0;
-    const token = process.env['GITHUB_TOKEN'];
-    if (!token) {
-        core.debug("No valid token for this repo");
-        return;
-    }
-    if (!repository || external_issue <= 0) {
-        core.debug("Invalid payload");
-        return;
-    }
-    try {
-        const octokit = new github.GitHub(token);
-        const issueCommentResponseOriginal = await octokit.issues.createComment({
-            owner: repository.owner.login,
-            repo: repository.name,
-            issue_number: external_issue,
-            body: `Thanks for submitting this bounty :heart:!
-            Your submission is tracked internally with the issue reference ${internal_issue}.`,
-        });
-        core.debug(`comment created ${issueCommentResponseOriginal.data.url}`);
-    }
-    catch (error) {
-        core.debug(error.message);
-    }
 };
 const checkDuplicates = async (payload) => {
     var _a;
@@ -222,27 +190,15 @@ const checkDuplicates = async (payload) => {
     }
     return false;
 };
-exports.isFirstSubmission = async (payload, token) => {
-    var _a;
-    const repository = payload.repository;
-    if (!repository)
-        return false;
-    const allSubmissions = await issues_1.getIssueList(repository.owner.login, repository.name, token, false, true);
-    return !issues_1.isUserAlreadyParticipant((_a = payload.issue) === null || _a === void 0 ? void 0 : _a.user.login, allSubmissions);
-};
 const run = async () => {
     const internalIssue = await exports.generateInternalIssueContentFromPayload(github.context.payload, core.getInput('specific_issue'));
     if (!internalIssue)
         return;
-    const existingIssue = core.getInput('existingIssue') || true;
-    if (existingIssue && await checkDuplicates(github.context.payload))
+    if (await checkDuplicates(github.context.payload))
         return;
-    const internal_ref = await exports.createInternalIssue(github.context.payload, internalIssue);
+    const internal_ref = await exports.createInternalIssue(internalIssue);
     if (!internal_ref)
         return;
-    if (!existingIssue) {
-        commentOriginalIssue(github.context.payload, internal_ref);
-    }
 };
 run();
 //# sourceMappingURL=replicate.js.map
