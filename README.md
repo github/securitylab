@@ -9,6 +9,8 @@ We use it for these main purposes:
 
 ## CodeQL Resources
 
+We welcome contributions to this section. For example, if you have written a blog post about a cool CodeQL query and would like to add a link to it here, then please open a pull request. See [Contributing](#Contributing) below.
+
 ### Official resources
 
 * [CodeQL documentation](https://codeql.github.com/docs/)
@@ -48,3 +50,10 @@ We use it for these main purposes:
 * Editor plugins
   * [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-codeql) (Official)
   * [Neovim](https://github.com/pwntester/codeql.nvim)
+
+## Contributing
+
+We welcome contributions to the [CodeQL_Queries](CodeQL_Queries) sub-directory and to the [CodeQL Resources](#codeql-resources) section of this README. For example, if you found a vulnerability with CodeQL and would like to share the query with the community, then please open a pull request to add it to the [CodeQL_Queries](CodeQL_Queries) sub-directory. Or if you have recorded a video in which you use CodeQL then please open a pull request to add it to the [Videos](#videos) section of this README.
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [LICENSE.md](LICENSE.md) for further information on our contributing guidelines and license.
+
