@@ -9,7 +9,7 @@ We use it for these main purposes:
 
 ## CodeQL Resources
 
-We welcome contributions to this section. For example, if you have written a blog post about a cool CodeQL query and would like to add a link to it here, then please open a pull request. See [Contributing](#Contributing) below.
+**This section is yours!** Do you want to share a cool CodeQL query with the community? Or some awesome tutorial or video, or some helpful tooling? Your contributions are welcome. Please open a pull request. See [Contributing](#Contributing) below.
 
 ### Official resources
 
