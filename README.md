@@ -42,3 +42,9 @@ We use it for these main purposes:
   * [Vulnerability Hunting: Quest for an Exploit using QL](https://www.youtube.com/watch?v=irrYp3wdtsw)
   * [Finding Insecure Deserialization in Java](https://www.youtube.com/watch?v=XsUcSd75K00)
   * [Finding integer overflows in Libssh2](https://www.youtube.com/watch?v=czXicfULOfk)
+
+### Tools
+
+* Editor plugins
+  * [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-codeql)
+  * [Neovim](https://github.com/pwntester/codeql.nvim)
