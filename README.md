@@ -46,5 +46,5 @@ We use it for these main purposes:
 ### Tools
 
 * Editor plugins
-  * [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-codeql)
+  * [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-codeql) (Official)
   * [Neovim](https://github.com/pwntester/codeql.nvim)
