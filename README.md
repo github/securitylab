@@ -60,4 +60,3 @@ If you have written a cool CodeQL query that you would like to share with the co
 If you would like to add a link [CodeQL Resources](#codeql-resources) section of this README, then just add another bullet point in the appropriate section. If possible, each bullet point should consist of a hyperlinked title and a short description. Please add new bullet points at the bottom of the list. In the future, we may choose some other ordering such as alphabetical but for now it is just a sequential list.
 
 Please see [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [LICENSE.md](LICENSE.md) for further information on our contributing guidelines and license.
-
