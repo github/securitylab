@@ -9,7 +9,7 @@ We use it for these main purposes:
 
 ## CodeQL Resources
 
-**This section is yours!** Do you want to share a cool CodeQL query with the community? Or some awesome tutorial or video, or some helpful tooling? Your contributions are welcome. Please open a pull request. See [Contributing](#Contributing) below.
+**This section is yours!** Do you want to share a cool CodeQL query with the community? Or an awesome tutorial or video, or some helpful tooling? Your contributions are welcome. Please open a pull request. See [Contributing](#Contributing) below.
 
 ### Official resources
 
@@ -53,7 +53,11 @@ We use it for these main purposes:
 
 ## Contributing
 
-We welcome contributions to the [CodeQL_Queries](CodeQL_Queries) sub-directory and to the [CodeQL Resources](#codeql-resources) section of this README. For example, if you found a vulnerability with CodeQL and would like to share the query with the community, then please open a pull request to add it to the [CodeQL_Queries](CodeQL_Queries) sub-directory. Or if you have recorded a video in which you use CodeQL then please open a pull request to add it to the [Videos](#videos) section of this README.
+We welcome contributions to the [CodeQL_Queries](CodeQL_Queries) sub-directory and to the [CodeQL Resources](#codeql-resources) section of this README.
+
+If you have written a cool CodeQL query that you would like to share with the community, then please open a pull request to add it to the [CodeQL_Queries](CodeQL_Queries) sub-directory. Put your query in its own new sub-directory. For example: `CodeQL_Queries/cpp/mynewsubdir/mycoolquery.ql`. Of course, if you think your query might be eligible for a [bounty](https://securitylab.github.com/bounties), then you should open a pull request to the [codeql](https://github.com/github/codeql) repo instead. We do not offer bounties for queries submitted to this repo. The queries in the [CodeQL_Queries](CodeQL_Queries) sub-directory are usually highly specialized queries that only make sense for a specific codebase. For example, this repo contains queries that specifically target [Chrome](CodeQL_Queries/cpp/Chrome) or [Apache Struts](CodeQL_Queries/java/Apache_Struts_CVE-2018-11776). Such queries are inappropriate for the [codeql](https://github.com/github/codeql) repo, which is for general purpose queries only.
+
+If you would like to add a link [CodeQL Resources](#codeql-resources) section of this README, then just add another bullet point in the appropriate section. If possible, each bullet point should consist of a hyperlinked title and a short description. Please add new bullet points at the bottom of the list. In the future, we may choose some other ordering such as alphabetical but for now it is just a sequential list.
 
 Please see [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [LICENSE.md](LICENSE.md) for further information on our contributing guidelines and license.
 
