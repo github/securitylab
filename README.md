@@ -24,7 +24,7 @@ We use it for these main purposes:
   * [Apple XNU icmp_error CVE-2018-4407](CodeQL_Queries/cpp/XNU_icmp_error_CVE-2018-4407)
   * [Facebook Fizz integer overflow vulnerability (CVE-2019-3560)](CodeQL_Queries/cpp/Facebook_Fizz_CVE-2019-3560)
   * [Eating error codes in libssh2](CodeQL_Queries/cpp/libssh2_eating_error_codes)
-  * [Itergator](https://github.com/trailofbits/itergator): Library and queries for iterator invalidation ([blog post](https://blog.trailofbits.com/2020/10/09/detecting-iterator-invalidation-with-codeql/))
+  * [Itergator](https://github.com/trailofbits/itergator) - Library and queries for iterator invalidation ([blog post](https://blog.trailofbits.com/2020/10/09/detecting-iterator-invalidation-with-codeql/))
 * Javascript
   * [Etherpad CVE-2018-6835](CodeQL_Queries/javascript/Etherpad_CVE-2018-6835)
 * C#
