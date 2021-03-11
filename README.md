@@ -20,6 +20,7 @@ We use it for these main purposes:
 
 * Java
   * [Apache Struts CVE-2018-11776](CodeQL_Queries/java/Apache_Struts_CVE-2018-11776)
+  * [Insecure JMS deserialization in Spring applications](https://github.com/silentsignal/jms-codeql/)
 * C/C++
   * [Apple XNU icmp_error CVE-2018-4407](CodeQL_Queries/cpp/XNU_icmp_error_CVE-2018-4407)
   * [Facebook Fizz integer overflow vulnerability (CVE-2019-3560)](CodeQL_Queries/cpp/Facebook_Fizz_CVE-2019-3560)
