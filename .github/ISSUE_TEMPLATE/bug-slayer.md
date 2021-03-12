@@ -7,6 +7,12 @@ assignees: ''
 
 ---
 
+## Query
+
+*OPTIONAL - Link to pull request with your CodeQL query:*
+
+Relevant PR: https://github.com/github/codeql/pull/nnnn
+
 ## CVE ID(s)
 
 *List the CVE ID(s) associated with this vulnerability. GitHub will automatically link CVE IDs to the [GitHub Advisory Database](https://github.com/advisories).*
