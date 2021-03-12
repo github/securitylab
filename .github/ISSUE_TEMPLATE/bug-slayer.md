@@ -9,7 +9,7 @@ assignees: ''
 
 ## Query
 
-*Link to pull request with your CodeQL query:*
+*OPTIONAL - Link to pull request with your CodeQL query:*
 
 Relevant PR: https://github.com/github/codeql/pull/nnnn
 
