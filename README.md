@@ -31,8 +31,8 @@ We use it for these main purposes:
 * C#
   * [C# Zip Slip demo](CodeQL_Queries/csharp/ZipSlip)
 * GitHub Actions:
-  * [pull_request_target with explicit pull request checkout](CodeQL_Queries/actions/pull_request_target.ql)
-  * [Command injection from user-controlled Actions context](CodeQL_Queries/actions/script_injections.ql)
+  * [pull_request_target with explicit pull request checkout](https://github.com/github/codeql/blob/main/javascript/ql/src/experimental/Security/CWE-094/UntrustedCheckout.ql)
+  * [Command injection from user-controlled Actions context](https://github.com/github/codeql/blob/main/javascript/ql/src/experimental/Security/CWE-094/ExpressionInjection.ql)
 
 ### Videos
 
