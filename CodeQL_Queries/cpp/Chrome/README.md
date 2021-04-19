@@ -12,7 +12,7 @@ The libraries in this repository are organized as follows:
 
 ### `commons.qll`:
 
-Mostly contain general enchancements to the standard QL library and some Chromium specific, but still general material. For example, because the operators `->` and `=` are often overloaded in Chrome, this somehow upsets the usual `getQualifier` and `Assignment` in QL, so two general methods, `getQualifier` and `GeneralAssignment` are implemented to take these into account. Other useful predicates are `constructionCall` and `polyConstructionCall`, which identify all the constructor calls, as well as constructions via `make_unique` and `MakeRefCounted`. `make_unique` works fine in code search, but not `MakeRefCounted`. Neither will work on vanilla QL, where you just end inside the standard library.
+Mostly contain general enhancements to the standard QL library and some Chromium specific, but still general material. For example, because the operators `->` and `=` are often overloaded in Chrome, this somehow upsets the usual `getQualifier` and `Assignment` in QL, so two general methods, `getQualifier` and `GeneralAssignment` are implemented to take these into account. Other useful predicates are `constructionCall` and `polyConstructionCall`, which identify all the constructor calls, as well as constructions via `make_unique` and `MakeRefCounted`. `make_unique` works fine in code search, but not `MakeRefCounted`. Neither will work on vanilla QL, where you just end inside the standard library.
 
 ### `collections.qll`:
 
