@@ -60,7 +60,7 @@ Are you planning to discuss your query publicly? (Blog Post, social networks, et
 - Even though your query is **out in the wild** (and it's quite trivial to run it against a sizable batch of projects), let's **not make things easy** for anyone wanting to exploit vulnerable projects.
 - We understand that contacting maintainers of all the vulnerable repositories found by your query is a hard and lenghty process, and that's why we will add a bonus if you will do that **for at least X repositories** and get a [CVE assigned for them].
 - Anyway, we're here for **automating things away** and if you want to leave the heavy lifting of finding and notifying vulnerable repositories' owners to GitHub security bots, that's fine with us.
-- But in any case, we need proof that you **did your own reaserch** on real projects, and succeeded in finding at least one **true positive result [through your query]**.
+- But in any case, we need proof that you **did your own reaserch** on [real projects], and succeeded in finding at least one **true positive result [through your query]**, proving that is it a **real vulnerability** that happens in real apps (and not a baseless assumption).
 
 ### Your answer 👇 (select one)
 
