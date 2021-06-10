@@ -77,6 +77,11 @@ Are you planning to discuss your query publicly? (Blog Post, social networks, et
 
 List the CVE ID(s) associated with this vulnerability. GitHub will automatically link CVE IDs to the [GitHub Advisory Database](https://github.com/advisories).
 
+
 ### Your answer 👇
 
-- CVE-20nn-nnnnn
+- Existing CVEs that my query would have been able to find if they weren't already fixed:
+	1. CVE-20nn-nnnnn
+
+- Vulnerabilities that my query found and then resulted in a CVE:
+	1. CVE-20nn-nnnnn	
