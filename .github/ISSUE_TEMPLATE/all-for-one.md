@@ -42,7 +42,7 @@ Describe the vulnerability. Provide any information you think will help GitHub a
 
 Are you planning to discuss your query publicly? (Blog Post, social networks, etc).
 
-**We would love to [help] you spread the word about the good work you are doing.**
+**We would love to [help you] spread the word about the good work you are doing.**
 
 ### Your answer 👇
 
@@ -56,7 +56,7 @@ Are you planning to discuss your query publicly? (Blog Post, social networks, et
 
 - Provide at least one useful result found by your query, on some revision of a real project.
 - If the result(s) is **fixed and disclosed**, then you can link it in this PR.
-- If the result(s) is **NOT** fixed **and disclosed**, then you can privately share your result via email to [security@github.com](mailto:security@github.com?subject=[BugBounty]%20Issue%20#000%20useful%20result) or on the [Security Lab slack](https://ghsecuritylab.slack.com/) sending it to `@TODO`.
+- If the result(s) is **NOT** fixed **nor disclosed**, then you can privately share your result via email to [security@github.com](mailto:security@github.com?subject=[BugBounty]%20Issue%20#000%20useful%20result) or on the [Security Lab slack](https://ghsecuritylab.slack.com/) sending it to `@TODO`.
 - Even though your query is **out in the wild** (and it's quite trivial to run it against a sizable batch of projects), let's **not make things easy** for anyone wanting to exploit vulnerable projects.
 - We understand that contacting maintainers of all the vulnerable repositories found by your query is a hard and lenghty process, and that's why we will add a bonus if you will do that **for at least X repositories** and get a [CVE assigned for them].
 - Anyway, we're here for **automating things away** and if you want to leave the heavy lifting of finding and notifying vulnerable repositories' owners to GitHub security bots, that's fine with us.
