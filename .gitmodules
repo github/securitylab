@@ -1,0 +1,3 @@
+[submodule "SecurityExploits/polkit/authentication_bypass_CVE-2021-3560/DBusParse"]
+	path = SecurityExploits/polkit/authentication_bypass_CVE-2021-3560/DBusParse
+	url = https://github.com/kevinbackhouse/DBusParse.git
