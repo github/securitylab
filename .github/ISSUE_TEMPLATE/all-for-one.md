@@ -46,36 +46,42 @@ body:
     validations:
       required: false
   - type: textarea
-    id: cve_ids
-    attributes:
-      label: CVE(s) ID list
-      description: Enter a list of the CVE ID(s) associated with this query, one bullet for each distinct CVE. GitHub will automatically link CVE IDs to the [GitHub Advisory Database](https://github.com/advisories).
-      placeholder: |
-        ex.
-        - CVE-20nn-xxxx
-        - CVE-20nn-yyyy
-    validations:
-      required: true
-  - type: textarea
     id: report
     attributes:
       label: Report
       description: Describe the vulnerability. Provide any information you think will help GitHub assess the impact your query has on the open source community.
+      placeholder: |
+        1. What is the vulnerability?
+        2. How does the vulnerability work?
+        3. What strategy do you use in your query to find the vulnerability?
+        4. How have you reduced the number of **false positives**?
+        5. Other information?
     validations:
       required: true
   - type: checkboxes
-    id: publish
+    id: social 
+    label: Are you planning to discuss this vulnerability submission publicly? (Blog Post, social networks, etc). *We would love to have you spread the word about the good work you are doing*
+    validations:
+      required: true
     attributes:
       options:
-        - label: Are you planning to discuss this vulnerability submission publicly? (Blog Post, social networks, etc). *We would love to have you spread the word about the good work you are doing*
-  - type: textarea
-    id: results
+        - Yes
+        - No
+  - type: input
+    id: social_url
     attributes:
-      label: Result(s)
-      description: Provide at least one useful result found by your query, on some revision of a real project. One bullet for each distinct result.
+      label: Blog post link
+      description: If you have already blogged about your query, please provide a link.
+    validations:
+      required: false
+  - type: textarea
+    id: cve_ids
+    attributes:
+      label: CVE(s) ID list
+      description: Enter a list of the CVE ID(s) associated with this query, one bullet for each distinct CVE. GitHub will automatically link CVE IDs to the [GitHub Advisory Database](https://github.com/advisories). If the result(s) is **NOT YET** fixed **nor disclosed**, and you are still waiting for a CVE, then you can privately share your result via email to [security@github.com](mailto:security@github.com?subject=[BugBounty]%20Issue%20#000%20useful%20result)
       placeholder: |
         ex.
-        - [project1](url1)
-        - [project2](url2)
+        - [CVE-20nn-xxxx](<relevant URL>)
+        - [CVE-20nn-yyyy](<relevant URL>)
     validations:
       required: true
