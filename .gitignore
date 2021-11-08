@@ -3,6 +3,7 @@
 /.metadata/
 .vscode
 .cache
+.venv
 
 # Ignore any generated TypeScript -> JavaScript files
 .github/actions/replicate-issue/*.js
