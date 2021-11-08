@@ -1,0 +1,68 @@
+name: The Bug Slayer bounty submission
+description: Submit a CodeQL query for the Bug Slayer bounty (https://securitylab.github.com/bounties)
+title: "[<language>]: <short description>"
+labels: [The Bug Slayer]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Introduction
+
+        Thank you for submitting a query to the GitHub CodeQL project!
+
+        After you submit this issue, the GitHub Security Lab and CodeQL teams will triage the submission and, if it meets the Query Bounty Program requirements, we will grant you a bounty through our HackerOne program.
+
+        Please make sure to carefully read the [bounty program description and conditions](https://securitylab.github.com/bounties/)
+
+        # Questionnaire
+  - type: textarea
+    id: cve_ids
+    attributes:
+      label: CVE(s) ID list
+      description: Enter a list of the CVE ID(s) associated with this query, one bullet for each distinct CVE. GitHub will automatically link CVE IDs to the [GitHub Advisory Database](https://github.com/advisories).
+      placeholder: |
+        ex.
+        - [CVE-20nn-xxxx](<relevant URL>)
+        - [CVE-20nn-yyyy](<relevant URL>)
+    validations:
+      required: true
+  - type: input
+    id: a41_url 
+    attributes:
+      label: All For One submission
+      description: Link to the All For One submission with your CodeQL query
+      placeholder: ex. https://github.com/github/codeql/pull/nnnn
+    validations:
+      required: true
+  - type: textarea
+    id: author
+    attributes:
+      label: Original author
+      description: Your GitHub handle or the GitHub handle of the original author of the query
+      placeholder: ex. @myhandle
+    validations:
+      required: true
+  - type: textarea
+    id: splitscheme
+    attributes:
+      label: Split scheme
+      description: If you are not the original author, split scheme for the bounty
+      placeholder: ex. 50/50
+    validations:
+      required: false
+  - type: checkboxes
+    id: social 
+    label: Are you planning to discuss this vulnerability submission publicly? (Blog Post, social networks, etc). *We would love to have you spread the word about the good work you are doing*
+    validations:
+      required: true
+    attributes:
+      options:
+        - Yes
+        - No
+  - type: input
+    id: social_url
+    attributes:
+      label: Blog post link
+      description: If you have already blogged about your query, please provide a link.
+    validations:
+      required: false
