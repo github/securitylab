@@ -37,6 +37,17 @@ body:
         - C#
     validations:
       required: true
+  - type: textarea
+    id: cve_ids
+    attributes:
+      label: CVE(s) ID list
+      description: Enter a list of the CVE ID(s) associated with this query, one bullet for each distinct CVE. GitHub will automatically link CVE IDs to the [GitHub Advisory Database](https://github.com/advisories). If the result(s) is **NOT YET** fixed **nor disclosed**, and you are still waiting for a CVE, then you can privately share your result via email to [security@github.com](mailto:security@github.com?subject=[BugBounty]%20Issue%20#000%20useful%20result)
+      placeholder: |
+        ex.
+        - [CVE-20nn-xxxx](<relevant URL>)
+        - [CVE-20nn-yyyy](<relevant URL>)
+    validations:
+      required: true
   - type: input
     id: cwe
     attributes:
@@ -74,14 +85,3 @@ body:
       description: If you have already blogged about your query, please provide a link.
     validations:
       required: false
-  - type: textarea
-    id: cve_ids
-    attributes:
-      label: CVE(s) ID list
-      description: Enter a list of the CVE ID(s) associated with this query, one bullet for each distinct CVE. GitHub will automatically link CVE IDs to the [GitHub Advisory Database](https://github.com/advisories). If the result(s) is **NOT YET** fixed **nor disclosed**, and you are still waiting for a CVE, then you can privately share your result via email to [security@github.com](mailto:security@github.com?subject=[BugBounty]%20Issue%20#000%20useful%20result)
-      placeholder: |
-        ex.
-        - [CVE-20nn-xxxx](<relevant URL>)
-        - [CVE-20nn-yyyy](<relevant URL>)
-    validations:
-      required: true
