@@ -31,7 +31,8 @@ body:
     attributes:
       label: All For One submission
       description: Link to the All For One submission with your CodeQL query
-      placeholder: ex. https://github.com/github/codeql/pull/nnnn
+      placeholder: |
+        ex. https://github.com/github/codeql/pull/nnnn
     validations:
       required: true
   - type: textarea
