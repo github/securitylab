@@ -73,13 +73,16 @@ body:
       required: true
   - type: checkboxes
     id: social 
-    label: Are you planning to discuss this vulnerability submission publicly? (Blog Post, social networks, etc). *We would love to have you spread the word about the good work you are doing*
+    attributes:
+      label: Are you planning to discuss this vulnerability submission publicly? (Blog Post, social networks, etc). 
+      description: We would love to have you spread the word about the good work you are doing
+      options:
+        - label: Yes
+          required: true
+        - label: No 
+          required: true
     validations:
       required: true
-    attributes:
-      options:
-        - Yes
-        - No
   - type: input
     id: social_url
     attributes:
