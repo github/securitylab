@@ -46,7 +46,7 @@ When you use a GitHub Security Advisory, you can request a CVE identification nu
 ## Credit
 
 *List all researchers who contributed to this disclosure.*
-*Mention if you found the vulnerability with a specific tool.*
+*If you found the vulnerability with a specific tool, you can also credit this tool.*
 
 ## Contact
 
@@ -54,4 +54,4 @@ When you use a GitHub Security Advisory, you can request a CVE identification nu
 
 ## Disclosure Policy
 
-*Describe or link to your disclosure policy.*
+*Describe or link to your disclosure policy. It's important to have a disclosure policy where the public disclosure deadline, and the potential exceptions to it, are clear. You are free to copy and use the [GitHub Security Lab disclosure policy](https://securitylab.github.com/advisories/#policy).*
