@@ -77,10 +77,8 @@ body:
       label: Are you planning to discuss this vulnerability submission publicly? (Blog Post, social networks, etc). 
       description: We would love to have you spread the word about the good work you are doing
       options:
-        - label: Yes
-          required: true
-        - label: No 
-          required: true
+        - label: "Yes"
+        - label: "No" 
     validations:
       required: true
   - type: input
