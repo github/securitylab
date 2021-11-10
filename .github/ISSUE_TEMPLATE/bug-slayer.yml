@@ -35,7 +35,7 @@ body:
         ex. https://github.com/github/codeql/pull/nnnn
     validations:
       required: true
-  - type: textarea
+  - type: input 
     id: author
     attributes:
       label: Original author
@@ -43,7 +43,7 @@ body:
       placeholder: ex. @myhandle
     validations:
       required: true
-  - type: textarea
+  - type: input 
     id: splitscheme
     attributes:
       label: Split scheme
