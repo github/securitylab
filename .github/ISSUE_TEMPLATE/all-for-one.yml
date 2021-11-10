@@ -20,7 +20,8 @@ body:
     attributes:
       label: Query PR
       description: Link to pull request with your CodeQL query
-      placeholder: ex. https://github.com/github/codeql/pull/nnnn
+      placeholder: |
+        ex. https://github.com/github/codeql/pull/nnnn
     validations:
       required: true
   - type: dropdown
@@ -53,7 +54,8 @@ body:
     attributes:
       label: CWE
       description: CWE that best fits the vulnerability class modeled with your query
-      placeholder: "ex. CWE-502: Deserialization of Untrusted Data"
+      placeholder: |
+        ex. CWE-502: Deserialization of Untrusted Data
     validations:
       required: false
   - type: textarea
