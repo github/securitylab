@@ -35,22 +35,6 @@ body:
         ex. https://github.com/github/securitylab/issues/nnn
     validations:
       required: true
-  - type: input 
-    id: author
-    attributes:
-      label: Original author
-      description: Your GitHub handle or the GitHub handle of the original author of the query
-      placeholder: ex. @myhandle
-    validations:
-      required: true
-  - type: input 
-    id: splitscheme
-    attributes:
-      label: Split scheme
-      description: If you are not the original author, split scheme for the bounty, under the form original_author/yourself. For example 30/70 means that 30% of the reward will go to the original author, and 70% to you. 
-      placeholder: ex. 50/50
-    validations:
-      required: false
   - type: checkboxes
     id: social 
     attributes:
