@@ -53,7 +53,7 @@ body:
     id: cwe
     attributes:
       label: CWE
-      description: CWE that best fits the vulnerability class modeled with your query
+      description: [CWE](https://cwe.mitre.org/data/index.html) that best fits the vulnerability class modeled with your query
       placeholder: |
         ex. CWE-502: Deserialization of Untrusted Data
     validations:
