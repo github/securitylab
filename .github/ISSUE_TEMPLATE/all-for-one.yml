@@ -1,5 +1,5 @@
 name: All for One, One For All bounty submission
-description: Submit a CodeQL query for the All For One, One For All bounty (https://securitylab.github.com/bounties)
+description: Submit a CodeQL query for the All For One, One For All bounty (https://securitylab.github.com/bounties#allforone)
 title: "[<language>]: <short description>"
 labels: [All For One]
 body:
@@ -12,7 +12,7 @@ body:
 
         After you submit this issue, the GitHub Security Lab and CodeQL teams will triage the submission and, if it meets the Query Bounty Program requirements, we will grant you a bounty through our HackerOne program.
 
-        Please make sure to carefully read the [bounty program description and conditions](https://securitylab.github.com/bounties/)
+        Please make sure to carefully read the [bounty program description and conditions](https://securitylab.github.com/bounties#allforone)
 
         # Questionnaire
   - type: input
