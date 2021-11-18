@@ -35,6 +35,18 @@ body:
         ex. https://github.com/github/securitylab/issues/nnn
     validations:
       required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Detail here how you found each CVE with your query. You can provide LGTM results, links to codeql DBs, ... anything that demonstrates that your query finds each CVE.
+      placeholder: |
+        ex.
+        - link/to/my/lgtm/runs
+        - link/to/gist/with/modified/query
+        - link/to/codeql/db
+    validations:
+      required: true
   - type: checkboxes
     id: social 
     attributes:
