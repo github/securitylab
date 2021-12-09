@@ -1,3 +1,12 @@
 [submodule "SecurityExploits/polkit/authentication_bypass_CVE-2021-3560/DBusParse"]
 	path = SecurityExploits/polkit/authentication_bypass_CVE-2021-3560/DBusParse
 	url = https://github.com/kevinbackhouse/DBusParse.git
+[submodule "SecurityExploits/Ubuntu/GHSL-2021-1011-accountsservice/DBusParse"]
+	path = SecurityExploits/Ubuntu/accountsservice_CVE-2021-3939/DBusParse
+	url = https://github.com/kevinbackhouse/DBusParse.git
+[submodule "SecurityExploits/Ubuntu/GHSL-2021-1011-accountsservice/EPollLoop"]
+	path = SecurityExploits/Ubuntu/accountsservice_CVE-2021-3939/EPollLoop
+	url = https://github.com/kevinbackhouse/EPollLoop.git
+[submodule "SecurityExploits/Ubuntu/GHSL-2021-1011-accountsservice/EPollLoopDBusHandler"]
+	path = SecurityExploits/Ubuntu/accountsservice_CVE-2021-3939/EPollLoopDBusHandler
+	url = https://github.com/kevinbackhouse/EPollLoopDBusHandler.git
