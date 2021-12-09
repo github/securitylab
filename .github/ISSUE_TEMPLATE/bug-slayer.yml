@@ -1,0 +1,66 @@
+name: The Bug Slayer bounty submission
+description: Submit a CodeQL query for the Bug Slayer bounty (https://securitylab.github.com/bounties)
+title: "[<language>]: <short description>"
+labels: [The Bug Slayer]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Introduction
+
+        Thank you for your submission to the bounty program!
+
+        After you submit this issue, the GitHub Security Lab and CodeQL teams will triage the submission and, if it meets the Query Bounty Program requirements, we will grant you a bounty through our HackerOne program.
+
+        Please make sure to carefully read the [bounty program description and conditions](https://securitylab.github.com/bounties/)
+
+        # Questionnaire
+  - type: textarea
+    id: cve_ids
+    attributes:
+      label: CVE(s) ID list
+      description: Enter a list of the CVE ID(s) associated with this query, one bullet for each distinct CVE. You need at least four high severity CVEs or two critical severity CVEs. 
+      placeholder: |
+        ex.
+        - [CVE-20nn-xxxx](<relevant URL>)
+        - [CVE-20nn-yyyy](<relevant URL>)
+    validations:
+      required: true
+  - type: input
+    id: a41_url 
+    attributes:
+      label: All For One submission
+      description: Link to the All For One submission with your CodeQL query
+      placeholder: |
+        ex. https://github.com/github/securitylab/issues/nnn
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Detail here how you found each CVE with your query. You can provide LGTM results, links to codeql DBs, ... anything that demonstrates that your query finds each CVE.
+      placeholder: |
+        ex.
+        - link/to/my/lgtm/runs
+        - link/to/gist/with/modified/query
+        - link/to/codeql/db
+    validations:
+      required: true
+  - type: checkboxes
+    id: social 
+    attributes:
+      label: Are you planning to discuss this vulnerability submission publicly? (Blog Post, social networks, etc).
+      description: We would love to have you spread the word about the good work you are doing
+      options:
+        - label: "Yes"
+        - label: "No"
+    validations:
+      required: true
+  - type: input
+    id: social_url
+    attributes:
+      label: Blog post link
+      description: If you have already blogged about your query, please provide a link.
+    validations:
+      required: false
