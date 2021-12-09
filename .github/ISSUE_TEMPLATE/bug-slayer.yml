@@ -19,7 +19,7 @@ body:
     id: cve_ids
     attributes:
       label: CVE(s) ID list
-      description: Enter a list of the CVE ID(s) associated with this query, one bullet for each distinct CVE. GitHub will automatically link CVE IDs to the [GitHub Advisory Database](https://github.com/advisories).
+      description: Enter a list of the CVE ID(s) associated with this query, one bullet for each distinct CVE. You need at least four high severity CVEs or two critical severity CVEs. 
       placeholder: |
         ex.
         - [CVE-20nn-xxxx](<relevant URL>)
