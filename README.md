@@ -34,6 +34,10 @@ We use it for these main purposes:
   * [pull_request_target with explicit pull request checkout](https://github.com/github/codeql/blob/main/javascript/ql/src/experimental/Security/CWE-094/UntrustedCheckout.ql)
   * [Command injection from user-controlled Actions context](https://github.com/github/codeql/blob/main/javascript/ql/src/experimental/Security/CWE-094/ExpressionInjection.ql)
 
+### Articles
+
+* [Practical Introduction to CodeQL](https://jorgectf.gitlab.io/blog/post/practical-codeql-introduction/)
+
 ### Videos
 
 * Conference talks/workshops:
