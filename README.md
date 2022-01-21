@@ -3,6 +3,7 @@
 This is the main git repository of [GitHub Security Lab](https://securitylab.github.com/).
 We use it for these main purposes:
 
+* We share with our community some best practices about security research and vulnerability disclosures in our [docs](/docs)
 * We use [issues on this repo](https://github.com/github/securitylab/issues?q=is%3Aissue+is%3Aopen+label%3A%22All+For+One%22) to track CodeQL [bounty requests](https://securitylab.github.com/bounties).
 * We use it for publishing some of our proof-of-concept exploits (after the vulnerability has been fixed). These PoCs can be found in the [SecurityExploits](SecurityExploits) sub-directory.
 * Examples of CodeQL queries, which can be found in the [CodeQL_Queries](CodeQL_Queries) sub-directory.
