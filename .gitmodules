@@ -10,3 +10,6 @@
 [submodule "SecurityExploits/Ubuntu/GHSL-2021-1011-accountsservice/EPollLoopDBusHandler"]
 	path = SecurityExploits/Ubuntu/accountsservice_CVE-2021-3939/EPollLoopDBusHandler
 	url = https://github.com/kevinbackhouse/EPollLoopDBusHandler.git
+[submodule "SecurityExploits/polkit/file_descriptor_exhaustion_CVE-2021-4115/DBusParse"]
+	path = SecurityExploits/polkit/file_descriptor_exhaustion_CVE-2021-4115/DBusParse
+	url = https://github.com/kevinbackhouse/DBusParse
