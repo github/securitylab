@@ -61,6 +61,10 @@ We use it for these main purposes:
   * [cqlgen](https://github.com/gagliardetto/cqlgen) — A codeql generation library written in Go.
   * [codemill](https://github.com/gagliardetto/codemill) — A codeql model generator for Go with a web UI. 
 
+## Disclaimer
+
+The recommendations from the GitHub Security Lab are provided graciously and it's ultimately the responsibility of the recipients to apply them or not. This concern recommendations given through our written or audio content, our conferences, our answers in our community spaces, or our informal office hours.
+
 ## Contributing
 
 We welcome contributions to the [CodeQL_Queries](CodeQL_Queries) sub-directory and to the [CodeQL Resources](#codeql-resources) section of this README.
