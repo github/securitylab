@@ -1,4 +1,4 @@
-# GitHun Security Lab Code of Conduct
+# GitHub Security Lab Code of Conduct
 
 ## Our Pledge
 
