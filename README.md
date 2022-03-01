@@ -63,7 +63,7 @@ We use it for these main purposes:
 
 ## Disclaimer
 
-The recommendations from the GitHub Security Lab are provided graciously and it's ultimately the responsibility of the recipients to apply them or not. This concern recommendations given through our written or audio content, our conferences, our answers in our community spaces, or our informal office hours.
+The recommendations from the GitHub Security Lab are provided graciously and it's ultimately the responsibility of the recipients to apply them or not. This concerns recommendations given through our written or audio content, our conferences, our answers in our community spaces, or our informal office hours.
 
 ## Contributing
 
