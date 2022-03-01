@@ -47,7 +47,7 @@ threatening, offensive, or harmful.
 
 This Code of Conduct applies within all project spaces such as but not limited to our repository content, issues and discussions, our public Slack workspace, our "office hours" meetings, and it also applies when an individual is representing the project or its community in public spaces.
 Examples of representing a project or community include using an official
-project e-mail address, posting via an official social media account or acting
+project e-mail address, posting via an official social media account, or acting
 as an appointed representative at an online or offline event. Representation of
 a project may be further defined and clarified by project maintainers.
 
