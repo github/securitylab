@@ -57,6 +57,7 @@ We use it for these main purposes:
 * Editor plugins
   * [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-codeql) (Official)
   * [Neovim](https://github.com/pwntester/codeql.nvim)
+  * [Emacs](https://github.com/anticomputer/emacs-codeql)
 * Code generation
   * [cqlgen](https://github.com/gagliardetto/cqlgen) — A codeql generation library written in Go.
   * [codemill](https://github.com/gagliardetto/codemill) — A codeql model generator for Go with a web UI. 
