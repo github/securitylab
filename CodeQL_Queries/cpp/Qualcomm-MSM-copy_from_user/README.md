@@ -1,4 +1,4 @@
-[Blog post](https://github.blog/category/security/stack-buffer-overflow-qualcomm-msm/)
+[Blog post](https://securitylab.github.com/research/stack-buffer-overflow-qualcomm-msm/)
 
 [Snapshot for this demo](https://github.com/github/securitylab/releases/download/qualcomm-msm-codeql-database/msm-4.4-revision-2017-May-07--08-33-56.zip)
 
