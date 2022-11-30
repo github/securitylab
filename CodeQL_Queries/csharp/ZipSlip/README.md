@@ -2,7 +2,7 @@
 
 ## Snapshot
 
-Use [this snapshot](http://downloads.lgtm.com/snapshots/csharp/microsoft/powershell/PowerShell_PowerShell_csharp-srcVersion_450d884668ca477c6581ce597958f021fac30bff-dist_odasa-lgtm-2018-09-11-e5cbe16-linux64.zip)
+Use [this snapshot](https://github.com/github/securitylab/releases/download/powershell-codeql-database/PowerShell_PowerShell_csharp-srcVersion_450d884668ca477c6581ce597958f021fac30bff-dist_odasa-lgtm-2018-09-11-e5cbe16-linux64.zip)
 of PowerShell.
 
 ## Introduction
@@ -15,14 +15,12 @@ they had written a basic query and run it against a number of critical codebases
 Because Semmle has a close working relationship with Microsoft, we then helped Microsoft to refine
 that query further and submit it as a [pull request](https://github.com/Semmle/ql/pull/54) against our open source QL repository.
 
-It was deployed to [LGTM.com](https://lgtm.com) within 2 weeks where it was run over thousands of open source C# projects.
+It was deployed to the now deprecated LGTM website within 2 weeks where it was run over thousands of open source C# projects.
 
-Here are some [sample results](https://lgtm.com/rules/1506511188430/alerts/) for the ZipSlip query. 
-One of those projects was Microsoft PowerShell.
+The CodeQL ZipSlip query found a vulnerability in Microsoft PowerShell.
 
 As a result of this query, [a senior Microsoft engineer](https://github.com/TravisEz13)
-fixed this vulnerability in November 2018 in
-[this PR](https://lgtm.com/projects/g/PowerShell/PowerShell/rev/b39a41109d86d9ba75f966e2d7b52b81fa629150).
+fixed this vulnerability in November 2018.
 
 So how did they do it?
 
@@ -48,5 +46,24 @@ This uses a global taint tracking configuration.
 
 # Final query
 
-The [final query](https://lgtm.com/rules/1506511188430/) includes query help, and identifies various other sources and sinks,
-but uses the same general structure. It also includes metadata for LGTM.
+The final query below includes query help, and identifies various other sources and sinks,
+but uses the same general structure.
+
+```ql
+using System.IO;
+using System.IO.Compression;
+class Good
+{
+    public static void WriteToDirectory(ZipArchiveEntry entry,
+                                        string destDirectory)
+    {
+        string destFileName = Path.GetFullPath(Path.Combine(destDirectory, entry.FullName));
+        string fullDestDirPath = Path.GetFullPath(destDirectory + Path.DirectorySeparatorChar);
+        if (!destFileName.StartsWith(fullDestDirPath)) {
+            throw new System.InvalidOperationException("Entry is outside the target dir: " +
+                                                                                 destFileName);
+        }
+        entry.ExtractToFile(destFileName);
+    }
+}
+```
