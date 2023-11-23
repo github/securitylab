@@ -37,6 +37,7 @@ body:
         - Ruby
         - C/C++
         - C#
+        - Swift
     validations:
       required: true
   - type: textarea
