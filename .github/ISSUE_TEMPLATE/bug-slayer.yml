@@ -6,6 +6,13 @@ body:
   - type: markdown
     attributes:
       value: |
+        # ANNOUNCEMENT
+        🚨 Attention CodeQL Bug Hunters! 🚨  
+        
+        We are [sunsetting the GitHub CodeQL Bug Bounty Program.](https://github.com/github/securitylab/discussions/828) 
+        
+        But fear not! You still have until June 24 to submit your final findings and potentially earn some cash 💰! Let's make these last submissions count! 🎯 
+        
         # Introduction
 
         Thank you for your submission to the bounty program!
