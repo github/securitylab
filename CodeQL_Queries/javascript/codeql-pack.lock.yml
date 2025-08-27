@@ -1,0 +1,6 @@
+---
+lockVersion: 1.0.0
+dependencies:
+  codeql/javascript-all:
+    version: 0.3.0
+compiled: false
