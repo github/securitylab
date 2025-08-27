@@ -8,7 +8,7 @@ It will most likely look similar to this:
 ```
 /home/codespace/.vscode-remote/data/User/globalStorage/github.vscode-codeql/distribution1/codeql/codeql
 ```
-3. Using the CodeQL binary, go to the language folder with the query you want to run `codeql pack install, for example:
+3. Using the CodeQL binary, go to the language folder with the query you want to run `codeql pack install`, for example:
 ```bash
 cd cpp
 /home/codespace/.vscode-remote/data/User/globalStorage/github.vscode-codeql/distribution1/codeql/codeql pack install
