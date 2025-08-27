@@ -1,0 +1,20 @@
+---
+lockVersion: 1.0.0
+dependencies:
+  codeql/dataflow:
+    version: 0.0.4
+  codeql/java-all:
+    version: 0.7.5
+  codeql/mad:
+    version: 0.1.5
+  codeql/regex:
+    version: 0.1.5
+  codeql/ssa:
+    version: 0.1.5
+  codeql/tutorial:
+    version: 0.1.5
+  codeql/typetracking:
+    version: 0.1.5
+  codeql/util:
+    version: 0.1.5
+compiled: false
