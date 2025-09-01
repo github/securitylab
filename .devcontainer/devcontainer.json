@@ -1,0 +1,27 @@
+{
+  "customizations": {
+    "codespaces": {
+      "extensions": [
+        "github.vscode-codeql"
+      ],
+      "settings": {
+        "codeQL.runningQueries.memory": 4096,
+        "codeQL.runningQueries.autoSave": true,
+        "CodeQL.canary.enabled": true
+      }
+    },
+    "vscode": {
+      "extensions": [
+        "github.vscode-codeql"
+      ],
+      "settings": {
+        "codeQL.runningQueries.memory": 4096,
+        "CodeQL.canary.enabled": true
+      },
+    }
+  },
+  "postCreateCommand": "",
+  "hostRequirements": {
+    "memory": "16gb"
+  }
+ }

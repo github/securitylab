@@ -1,3 +1,5 @@
 name: codeql-demos-javascript
 version: 0.0.0
-libraryPathDependencies: codeql-javascript
+dependencies:
+  codeql/javascript-all: 0.3.0
+
