@@ -19,17 +19,17 @@ include:
 * Gracefully accepting constructive criticism
 * Focusing on what is best for the community
 * Showing empathy towards other community members
+* Communicating in English to ensure broad accessibility and effective collaboration across our global community. We recognize this presents challenges for non-native speakers and encourage patience and support, while maintaining clear communication and transparency is essential for security-related discussions
+* Staying focused on our global topic –securing open source software, getting help securing your project–, or the specific topic of the current Slack channel or discussion thread
 
 Examples of unacceptable behavior by participants include:
 
-* The use of sexualized language or imagery and unwelcome sexual attention or
-  advances
+* The use of sexualized language or imagery and unwelcome sexual attention or advances
 * Trolling, insulting/derogatory comments, and personal or political attacks
 * Public or private harassment
-* Publishing others' private information, such as a physical or electronic
-  address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
-  professional setting
+* Publishing others' private information, such as a physical or electronic address, without explicit permission
+* Sustained off-topic messages that detract from the community's focus on open source security
+* Other conduct which could reasonably be considered inappropriate in a professional setting
 
 ## Our Responsibilities
 
@@ -54,7 +54,7 @@ a project may be further defined and clarified by project maintainers.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting the project team at opensource@github.com. All
+reported by contacting the project team at securitylab@github.com. All
 complaints will be reviewed and investigated and will result in a response that
 is deemed necessary and appropriate to the circumstances. The project team is
 obligated to maintain confidentiality with regard to the reporter of an incident.
