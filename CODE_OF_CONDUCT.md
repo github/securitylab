@@ -19,7 +19,6 @@ include:
 * Gracefully accepting constructive criticism
 * Focusing on what is best for the community
 * Showing empathy towards other community members
-* Communicating in English to ensure broad accessibility and effective collaboration across our global community. We recognize this presents challenges for non-native speakers and encourage patience and support, while maintaining clear communication and transparency is essential for security-related discussions
 * Staying focused on our global topic –securing open source software, getting help securing your project–, or the specific topic of the current Slack channel or discussion thread
 
 Examples of unacceptable behavior by participants include:
