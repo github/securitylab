@@ -2,41 +2,65 @@
 
 # Vulnerability Report
 
-I identified potential security vulnerabilities in [product].
+I identified potential security vulnerabilities in faultystudentrecord repositorys main.py.
 
 I am committed to working with you to help resolve these issues. In this report you will find everything you need to effectively coordinate a resolution of these issues.
 
-If at any point you have concerns or questions about this process, please do not hesitate to reach out to me at [email].
+If at any point you have concerns or questions about this process, please do not hesitate to reach out to me at samulism@gmail.com.
 
 If you are _NOT_ the correct point of contact for this report, please let me know!
 
 ## Summary
 
-*Short summary of the problem. Make the impact and severity as clear as possible. For example: An unsafe deserialization vulnerability allows any unauthenticated user to execute arbitrary code on the server.*
+In the repository faultystudentrecord in the main.py file, the code has several issues. There is a problem with authentication in the following code: 
+
+cursor.execute(
+    "INSERT INTO users (username, password) VALUES (?, ?)",
+    ("admin", "password")
+)
+
+With this code, it is possible for anybody to gain administrative access by just using the default credentials which are username: admin password: password.
+Anybody who can view the source code, can find out immediatly that the login credentials are the default ones. 
 
 ## Product
 
-[product]
+Python, SQLite
 
 ## Tested Version
 
-[version]
+main.py
 
 ## Details
 
-*Give all details on the vulnerability. Pointing to the incriminated source code is very helpful for the maintainer.*
+cursor.execute(
+    "INSERT INTO users (username, password) VALUES (?, ?)",
+    ("admin", "password")
+)
+conn.commit()
+
+This can be found from the main.py file from the code and it creates a bypass for the authentication. Anybody who can access the source code will be able to access the database without authorization.
 
 ## PoC
 
-*Complete instructions, including specific configuration details, to reproduce the vulnerability*
+Just run the main.py file for example in bash.
+
+Enter login credentials
+
+Username: admin
+password: password
+
+The application allows you to login with admin access.
 
 ## Impact
 
-[impact]
+Anybody can get the access to the application by just viewing the source code and gain access to the student data, personal information etc. without authorization.
 
 ## Remediation
 
-*Propose a remediation suggestion if you have one. Make it clear that this is just a suggestion, as the maintainer might have a better idea to fix the issue.*
+- Passwords should be used securely for example by hashing them via some tool
+- Removing of this hard-coded credentials from the code immediatly
+- Company policies should be applied of using unique usernames
+- Administrators should be informed of this code and right away forced it to be a policy of creating unique credentials properly during the initial setup
 
 ## GitHub Security Advisories
 
@@ -45,8 +69,7 @@ When you use a GitHub Security Advisory, you can request a CVE identification nu
 
 ## Credit
 
-*List all researchers who contributed to this disclosure.*
-*If you found the vulnerability with a specific tool, you can also credit this tool.*
+samulism, idilidilidil, hniemilaurea, siessisi
 
 ## Contact
 
